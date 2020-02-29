@@ -123,3 +123,14 @@ def category_delete_all():
     if Path(__CATEGORY_FILE).is_file() and os.stat(__CATEGORY_FILE).st_size != 0:
         with open(__CATEGORY_FILE, 'w') as file:
             file.write("[]")
+
+
+def entity_search(search_ctg, search_type, search_name):
+    result = []
+    cat_id = None if search_ctg is None else category_get_by_name(search_ctg).entity_id
+    for entry in entry_list():
+        if((cat_id is None or entry.category_id == cat_id) and
+            (search_type is None or entry.entry_type == search_type) and
+            (search_name is None or search_name.lower() in entry.name.lower())):
+            result.append(entry)
+    return result;

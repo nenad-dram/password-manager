@@ -135,7 +135,6 @@ class MainWindow:
         self.btnSearch.configure(highlightcolor="black")
         self.btnSearch.configure(pady="0")
         self.btnSearch.configure(text='''Search''')
-        self.btnSearch.configure(state="disabled")
 
         self.Frame = tk.Frame(top)
         self.Frame.place(relx=0.0, rely=0.088, relheight=0.849, relwidth=1.0)

@@ -118,8 +118,6 @@ class LoginWindow():
         self.btnLogin.configure(pady="0")
         self.btnLogin.configure(text='''Login''')
         
-        self.entMasterPwd.insert(0, "dramicanin")
-
 def get_center_points(width, height):
     center_x = int((rt.winfo_screenwidth()/2) - (width/2))
     center_y = int((rt.winfo_screenheight()/2) - (height/2))

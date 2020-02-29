@@ -13,14 +13,14 @@ except ImportError:
 from model.security import master_pwd_exists
 from view.login import create_loginWindow as start_login
 from view.registration import create_registrationWindow as start_registration
- 
+
 root = tk.Tk()
- 
+
 if(master_pwd_exists()):
     start_login(root)
 else:
     start_registration(root)
-    
+
 if (platform.system() == 'Linux'):
     root.iconbitmap('@../resources/padlock.xbm')
 else:
