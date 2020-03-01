@@ -20,9 +20,11 @@ if(master_pwd_exists()):
     start_login(root)
 else:
     start_registration(root)
-
-if (platform.system() == 'Linux'):
-    root.iconbitmap('@../resources/padlock.xbm')
-else:
-    root.iconbitmap('../resources/padlock.ico')
+try:
+    if (platform.system() == 'Linux'):
+        root.iconbitmap('@../resources/padlock.xbm')
+    else:
+        root.iconbitmap('../resources/padlock.ico')
+except:
+    print("Unable to load logo image")
 root.mainloop()

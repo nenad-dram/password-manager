@@ -335,7 +335,10 @@ def get_center_points(width, height):
     return (center_x, center_y)
 
 def set_icon():
-    if (platform.system() == 'Linux'):
-        w.iconbitmap('@../resources/padlock.xbm')
-    else:
-        w.iconbitmap('../resources/padlock.ico')
+    try:
+        if (platform.system() == 'Linux'):
+            root.iconbitmap('@../resources/padlock.xbm')
+        else:
+            root.iconbitmap('../resources/padlock.ico')
+    except:
+        print("Unable to load logo image")

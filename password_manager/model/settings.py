@@ -6,7 +6,7 @@ Created on Feb 26, 2020
 import configparser
 
 __APP_SETTINGS = 'APP SETTINGS'
-__DATA_CONFIG_FILE = '.data.ini'
+__DATA_CONFIG_FILE = '../data/data.ini'
 
 __NEXT_CAT_ID_KEY = 'next_category_id'
 __NEXT_ENT_ID_KEY = 'next_entry_id'

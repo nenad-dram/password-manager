@@ -7,11 +7,11 @@ Created on Jan 20, 2020
 from model.data_model import Category, Entry
 from pathlib import Path
 from os.path import os
-import jsonpickle
 from model import settings, util
+import jsonpickle
 
-__CATEGORY_FILE = '.categories.json'
-__ENTRY_FILE = '.entries.json'
+__CATEGORY_FILE = '../data/categories.json'
+__ENTRY_FILE = '../data/entries.json'
 
 
 def category_add(name, description):
