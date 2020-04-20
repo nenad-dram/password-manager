@@ -20,6 +20,8 @@ except ImportError:
     py3 = True
 
 from support import change_master_password_support
+import os
+import platform
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -69,7 +71,7 @@ class ChangeMasterPwdWindow:
         top.configure(background="#d9d9d9")
 
         self.lblCurPwd = tk.Label(top)
-        self.lblCurPwd.place(relx=0.023, rely=0.095, height=21, width=102)
+        self.lblCurPwd.place(relx=0.023, rely=0.095, height=21, relwidth=0.35)
         self.lblCurPwd.configure(anchor='w')
         self.lblCurPwd.configure(background="#d9d9d9")
         self.lblCurPwd.configure(disabledforeground="#a3a3a3")
@@ -77,7 +79,7 @@ class ChangeMasterPwdWindow:
         self.lblCurPwd.configure(text='''Current password:''')
 
         self.entCurPwd = tk.Entry(top)
-        self.entCurPwd.place(relx=0.278, rely=0.095,height=20, relwidth=0.681)
+        self.entCurPwd.place(relx=0.31, rely=0.095,height=21, relwidth=0.65)
         self.entCurPwd.configure(background="white")
         self.entCurPwd.configure(disabledforeground="#a3a3a3")
         self.entCurPwd.configure(font="TkFixedFont")
@@ -86,7 +88,7 @@ class ChangeMasterPwdWindow:
         self.entCurPwd.configure(show="*")
 
         self.lblNewPwd = tk.Label(top)
-        self.lblNewPwd.place(relx=0.023, rely=0.284, height=21, width=92)
+        self.lblNewPwd.place(relx=0.023, rely=0.284, height=21, relwidth=0.35)
         self.lblNewPwd.configure(activebackground="#f9f9f9")
         self.lblNewPwd.configure(activeforeground="black")
         self.lblNewPwd.configure(anchor='w')
@@ -98,7 +100,7 @@ class ChangeMasterPwdWindow:
         self.lblNewPwd.configure(text='''New password:''')
 
         self.entNewPwd = tk.Entry(top)
-        self.entNewPwd.place(relx=0.278, rely=0.284,height=20, relwidth=0.681)
+        self.entNewPwd.place(relx=0.31, rely=0.284, height=21, relwidth=0.65)
         self.entNewPwd.configure(background="white")
         self.entNewPwd.configure(disabledforeground="#a3a3a3")
         self.entNewPwd.configure(font="TkFixedFont")
@@ -111,7 +113,7 @@ class ChangeMasterPwdWindow:
         self.entNewPwd.configure(show="*")
 
         self.lblRptPwd = tk.Label(top)
-        self.lblRptPwd.place(relx=0.023, rely=0.474, height=21, width=102)
+        self.lblRptPwd.place(relx=0.023, rely=0.474, height=21, relwidth=0.35)
         self.lblRptPwd.configure(activebackground="#f9f9f9")
         self.lblRptPwd.configure(activeforeground="black")
         self.lblRptPwd.configure(anchor='w')
@@ -123,7 +125,7 @@ class ChangeMasterPwdWindow:
         self.lblRptPwd.configure(text='''Repeat password:''')
 
         self.entRptPwd = tk.Entry(top)
-        self.entRptPwd.place(relx=0.278, rely=0.474,height=20, relwidth=0.681)
+        self.entRptPwd.place(relx=0.31, rely=0.474,height=21, relwidth=0.65)
         self.entRptPwd.configure(background="white")
         self.entRptPwd.configure(disabledforeground="#a3a3a3")
         self.entRptPwd.configure(font="TkFixedFont")
@@ -165,6 +167,8 @@ class ChangeMasterPwdWindow:
         self.lblMsg.configure(disabledforeground="#a3a3a3")
         self.lblMsg.configure(foreground="#ff0000")
 
+        set_icon()
+
 if __name__ == '__main__':
     vp_start_gui()
 
@@ -173,5 +177,11 @@ def get_center_points(width, height):
     center_y = int((rt.winfo_screenheight()/2) - (height/2))
     return (center_x, center_y)
 
-
-
+def set_icon():
+    try:
+        if (platform.system() == 'Linux'):
+            w.iconbitmap('@' + os.path.join(os.path.dirname(__file__), '../../resources/padlock.xbm'))
+        else:
+            w.iconbitmap('@' + os.path.join(os.path.dirname(__file__), '../../resources/padlock.ico'))
+    except:
+        print("Unable to load logo image")

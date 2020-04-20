@@ -32,13 +32,17 @@ def init(top, gui, *args, **kwargs):
     type_menu=gui.typeSelMenu["menu"]
     type_menu.delete(0, "end")
     for val in [e.value for e in EntryType]:
-            type_menu.add_command(label=val, command= lambda value=val: gui.selType.set(value))
+        type_menu.add_command(label=val, command= lambda value=val: gui.selType.set(value))
+        type_menu.configure(activebackground="#a7a7a7", background="#d9d9d9")
+        type_menu.configure(foreground = "#000000", activeforeground = "#000000")
     gui.selType.trace('w', on_option_select)
-    
+
     cat_menu=gui.catSelMenu["menu"]
     cat_menu.delete(0, "end")
     for val in [c.name for c in services.category_list()]:
-            cat_menu.add_command(label=val, command= lambda value=val: gui.selCat.set(value))
+        cat_menu.add_command(label=val, command= lambda value=val: gui.selCat.set(value))
+        cat_menu.configure(background="#d9d9d9", activebackground="#a7a7a7")
+        cat_menu.configure(foreground="#000000", activeforeground="#000000")
 
 def destroy_window():
     # Function which closes the window.

@@ -41,14 +41,15 @@ def on_register_btn():
     password = w.entPwd.get().replace(' ', '')
     confirm_password = w.entRptPwd.get().replace(' ', '')
     if len(password) == 0 or len(confirm_password) == 0:
-        messagebox.showerror('Registration', 'Please enter both values')
+        w.lblMsg.configure(text="Please enter both values!")
         return
     if password != confirm_password:
-        messagebox.showerror('Registration', 'Password and Confirm password are different' )
+        w.lblMsg.configure(text="Password and Confirm password are different!")
         return
+
     settings.init()
     security.save_master_pwd(password)
-    messagebox.showinfo('Registration', 'Registration successful, please login')
+    messagebox.showinfo('Registration', 'Registration successful, please login!')
     
     destroy_window()
     create_loginWindow(tk.Tk())

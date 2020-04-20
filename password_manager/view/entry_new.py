@@ -21,6 +21,7 @@ except ImportError:
     py3 = True
 
 from support import entry_new_support
+import os
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -98,8 +99,10 @@ class NewEntryWindow:
         self.typeSelMenu = OptionMenu(self.frameBody, self.selType, None)
         self.typeSelMenu.place(relx=0.3, rely=0.055, height=21, relwidth=0.596)
         self.typeSelMenu.configure(background="#d9d9d9")
-        self.typeSelMenu.configure(highlightbackground="#d9d9d9")
-        self.typeSelMenu.configure(highlightcolor="black") 
+        self.typeSelMenu.configure(highlightbackground="#d3d3d3")
+        self.typeSelMenu.configure(foreground="#000000")
+        self.typeSelMenu.configure(activebackground="#a7a7a7")
+        self.typeSelMenu.configure(activeforeground="#000000")
 
         self.lblCateg = tk.Label(self.frameBody)
         self.lblCateg.place(relx=0.05, rely=0.127, height=21, width=92)
@@ -118,8 +121,10 @@ class NewEntryWindow:
         self.catSelMenu = OptionMenu(self.frameBody, self.selCat, None)
         self.catSelMenu.place(relx=0.3, rely=0.127,height=21, relwidth=0.596)
         self.catSelMenu.configure(background="#d9d9d9")
-        self.catSelMenu.configure(highlightbackground="#d9d9d9")
-        self.catSelMenu.configure(highlightcolor="black") 
+        self.catSelMenu.configure(highlightbackground="#d3d3d3")
+        self.catSelMenu.configure(foreground="#000000")
+        self.catSelMenu.configure(activebackground="#a7a7a7")
+        self.catSelMenu.configure(activeforeground="#000000")
 
         self.lblName = tk.Label(self.frameBody)
         self.lblName.place(relx=0.05, rely=0.2, height=21, width=92)
@@ -307,8 +312,8 @@ def get_center_points(width, height):
 def set_icon():
     try:
         if (platform.system() == 'Linux'):
-            root.iconbitmap('@../resources/padlock.xbm')
+            w.iconbitmap('@' + os.path.join(os.path.dirname(__file__), '../../resources/padlock.xbm'))
         else:
-            root.iconbitmap('../resources/padlock.ico')
+            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.ico'))
     except:
         print("Unable to load logo image")

@@ -54,7 +54,7 @@ class DefaultEmail:
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
         _ana2color = '#ececec' # Closest X11 color: 'gray92'
         
-        width = 395
+        width = 450
         height = 112
         
         center = get_center_points(width, height)
@@ -76,7 +76,7 @@ class DefaultEmail:
         self.entryEmail.configure(insertbackground="black")
 
         self.lblEmail = tk.Label(top)
-        self.lblEmail.place(relx=0.025, rely=0.179, height=21, width=84)
+        self.lblEmail.place(relx=0.025, rely=0.179, height=21, width=100)
         self.lblEmail.configure(background="#d9d9d9")
         self.lblEmail.configure(disabledforeground="#a3a3a3")
         self.lblEmail.configure(foreground="#000000")

@@ -64,7 +64,7 @@ class RegistrationWindow:
             " -underline 0 -overstrike 0"
 
         width = 445
-        height = 261
+        height = 280
         
         center = get_center_points(width, height)
         
@@ -103,7 +103,7 @@ class RegistrationWindow:
         self.lblMasterPwd.configure(text='''Please enter new master password''')
 
         self.lblPwd = tk.Label(top)
-        self.lblPwd.place(relx=0.045, rely=0.46, height=30, width=150)
+        self.lblPwd.place(relx=0.023, rely=0.46, height=21, relwidth=0.35)
         self.lblPwd.configure(activebackground="#f9f9f9")
         self.lblPwd.configure(activeforeground="black")
         self.lblPwd.configure(anchor='w')
@@ -116,7 +116,7 @@ class RegistrationWindow:
         self.lblPwd.configure(text='''Password:''')
 
         self.entPwd = tk.Entry(top)
-        self.entPwd.place(relx=0.427, rely=0.46,height=23, relwidth=0.503)
+        self.entPwd.place(relx=0.31, rely=0.46, height=20, relwidth=0.65)
         self.entPwd.configure(background="white")
         self.entPwd.configure(disabledforeground="#a3a3a3")
         self.entPwd.configure(font=font12)
@@ -129,7 +129,7 @@ class RegistrationWindow:
         self.entPwd.configure(show="*")
 
         self.lblPwdCnf = tk.Label(top)
-        self.lblPwdCnf.place(relx=0.045, rely=0.613, height=30, width=160)
+        self.lblPwdCnf.place(relx=0.023, rely=0.613, height=21, relwidth=0.35)
         self.lblPwdCnf.configure(activebackground="#f9f9f9")
         self.lblPwdCnf.configure(activeforeground="black")
         self.lblPwdCnf.configure(anchor='w')
@@ -142,7 +142,7 @@ class RegistrationWindow:
         self.lblPwdCnf.configure(text='''Repeat password:''')
 
         self.entRptPwd = tk.Entry(top)
-        self.entRptPwd.place(relx=0.427, rely=0.613,height=23, relwidth=0.503)
+        self.entRptPwd.place(relx=0.31, rely=0.613, height=21, relwidth=0.65)
         self.entRptPwd.configure(background="white")
         self.entRptPwd.configure(disabledforeground="#a3a3a3")
         self.entRptPwd.configure(font=font12)
@@ -155,7 +155,7 @@ class RegistrationWindow:
         self.entRptPwd.configure(show="*")
 
         self.btnSubmit = tk.Button(top)
-        self.btnSubmit.place(relx=0.539, rely=0.766, height=32, width=98)
+        self.btnSubmit.place(relx=0.4, rely=0.766, height=32, width=98)
         self.btnSubmit.configure(activebackground="#ececec")
         self.btnSubmit.configure(activeforeground="#000000")
         self.btnSubmit.configure(background="#d9d9d9")
@@ -166,6 +166,12 @@ class RegistrationWindow:
         self.btnSubmit.configure(highlightcolor="black")
         self.btnSubmit.configure(pady="0")
         self.btnSubmit.configure(text='''Submit''')
+
+        self.lblMsg = tk.Label(top)
+        self.lblMsg.place(relx=0.0, rely=0.9, height=21, width=width)
+        self.lblMsg.configure(background="#d9d9d9")
+        self.lblMsg.configure(disabledforeground="#a3a3a3")
+        self.lblMsg.configure(foreground="#ff0000")
 
 def get_center_points(width, height):
     center_x = int((rt.winfo_screenwidth()/2) - (width/2))

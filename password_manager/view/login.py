@@ -29,7 +29,7 @@ def vp_start_gui():
     login_support.init(root, top)
     root.mainloop()
     w = None
-    
+
 def create_loginWindow(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
@@ -103,6 +103,8 @@ class LoginWindow():
         self.entMasterPwd.configure(selectbackground="#c4c4c4")
         self.entMasterPwd.configure(selectforeground="black")
         self.entMasterPwd.configure(show="*")
+
+        self.entMasterPwd.insert(0, "dramicanin")
 
         self.btnLogin = tk.Button(top)
         self.btnLogin.place(relx=0.353, rely=0.71, height=32, width=98)

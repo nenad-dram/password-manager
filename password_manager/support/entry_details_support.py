@@ -31,13 +31,19 @@ def init(top, gui, *args, **kwargs):
     type_menu=gui.typeSelMenu["menu"]
     type_menu.delete(0, "end")
     for val in [e.value for e in EntryType]:
-            type_menu.add_command(label=val, command= lambda value=val: gui.selType.set(value))
+        type_menu.add_command(label=val, command= lambda value=val: gui.selType.set(value))
+        type_menu.configure(activebackground="#a7a7a7", background="#d9d9d9")
+        type_menu.configure(foreground="#000000", activeforeground="#000000")
     
     cat_menu=gui.catSelMenu["menu"]
     cat_menu.delete(0, "end")
     for val in [c.name for c in services.category_list()]:
-            cat_menu.add_command(label=val, command= lambda value=val: gui.selCat.set(value))
+        cat_menu.add_command(label=val, command= lambda value=val: gui.selCat.set(value))
+        cat_menu.configure(background="#d9d9d9", activebackground="#a7a7a7")
+        cat_menu.configure(foreground="#000000", activeforeground="#000000")
+
     fill_form(args[0])
+
     gui.chBtnShow.configure(command=lambda: gui.entryValue.configure(show="" if w.setChBtnShow.get() else "*"))
     gui.btnEdit.configure(command = lambda: enable_for_edit(True))
     gui.btnSave.configure(command = lambda: on_save(args[0]))
@@ -121,7 +127,7 @@ def on_delete(entry_id):
 
 
 def enable_for_edit(to_enable):
-    enable_state = "normal" if to_enable else "disable"
+    enable_state = "normal" if to_enable else "disabled"
     w.typeSelMenu.configure(state=enable_state)
     w.catSelMenu.configure(state=enable_state)
     w.entryName.configure(state=enable_state)
@@ -136,7 +142,7 @@ def enable_for_edit(to_enable):
         w.checkDefEmail.configure(state=enable_state)
         w.checkDefEmail.configure(command = on_check_email)
     
-    w.btnEdit.configure(state = "normal" if not to_enable else "disable")
+    w.btnEdit.configure(state = "normal" if not to_enable else "disabled")
 
 def on_option_select(*args):
     option = w.selType.get()

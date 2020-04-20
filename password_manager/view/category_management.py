@@ -6,6 +6,7 @@
 #    Feb 04, 2020 07:07:23 PM CET  platform: Windows NT
 
 import sys
+import os
 
 try:
     import Tkinter as tk
@@ -339,8 +340,8 @@ def get_center_points(width, height):
 def set_icon():
     try:
         if (platform.system() == 'Linux'):
-            root.iconbitmap('@../resources/padlock.xbm')
+            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.xbm'))
         else:
-            root.iconbitmap('../resources/padlock.ico')
+            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.ico'))
     except:
         print("Unable to load logo image")

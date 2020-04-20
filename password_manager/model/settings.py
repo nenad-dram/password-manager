@@ -4,9 +4,10 @@ Created on Feb 26, 2020
 @author: ndramica
 '''
 import configparser
+import os
 
 __APP_SETTINGS = 'APP SETTINGS'
-__DATA_CONFIG_FILE = '../data/data.ini'
+__DATA_CONFIG_FILE = os.path.join(os.path.dirname(__file__), '../../data/data.ini')
 
 __NEXT_CAT_ID_KEY = 'next_category_id'
 __NEXT_ENT_ID_KEY = 'next_entry_id'
