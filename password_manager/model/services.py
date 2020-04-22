@@ -7,11 +7,11 @@ Created on Jan 20, 2020
 from model.data_model import Category, Entry
 from pathlib import Path
 import os
-from model import settings, util
+from model import settings, util, security
 import jsonpickle
 
 __CATEGORY_FILE = os.path.join(os.path.dirname(__file__),'../../data/categories.json')
-__ENTRY_FILE = os.path.join(os.path.dirname(__file__),'../../data/entries.json')
+__ENTRY_FILE = os.path.join(os.path.dirname(__file__),'../../data/entries')
 
 
 def category_add(name, description):
@@ -28,10 +28,11 @@ def category_add(name, description):
 
     settings.set_next_entity_id(cat_id + 1)
 
+
 def category_edit(edited_cat):
     categories = category_list()
     for category in categories:
-        if(category.entity_id == edited_cat.entity_id):
+        if category.entity_id == edited_cat.entity_id:
             edited_cat.modified_date = util.get_current_date()
             categories.remove(category)
             categories.append(edited_cat)
@@ -39,16 +40,18 @@ def category_edit(edited_cat):
     
     with open(__CATEGORY_FILE, 'w') as file:
         file.write(jsonpickle.encode(categories))
-    
+
+
 def category_delete(cat_id):
     categories = category_list()
     for category in categories:
-        if(category.entity_id == cat_id):
+        if category.entity_id == cat_id:
             categories.remove(category)
             break   
     
     with open(__CATEGORY_FILE, 'w') as file:
         file.write(jsonpickle.encode(categories))
+
 
 def category_list():
     if Path(__CATEGORY_FILE).is_file() and os.stat(__CATEGORY_FILE).st_size != 0:
@@ -56,16 +59,20 @@ def category_list():
             return jsonpickle.decode(file.read())
     else:
         return []
-    
+
+
 def category_get_by_name(name):
     for category in category_list():
-        if(category.name == name):
+        if category.name == name:
             return category
-        
+
+
 def category_get_by_id(cat_id):
     for category in category_list():
-        if(category.entity_id == cat_id):
+
+        if category.entity_id == cat_id:
             return category
+
 
 def entry_add(name, value, entry_type, category, description, username, email):
     category_id = category_get_by_name(category).entity_id
@@ -75,50 +82,52 @@ def entry_add(name, value, entry_type, category, description, username, email):
     
     entries = entry_list()
     entries.append(entry)
-        
-    with open(__ENTRY_FILE, 'w') as file:
-        file.write(jsonpickle.encode(entries))
+
+    encrypt_and_save(__ENTRY_FILE, jsonpickle.encode(entries))
 
     settings.set_next_category_id(ent_id + 1)
 
+
 def entry_list():
-    if Path(__ENTRY_FILE).is_file() and os.stat(__ENTRY_FILE).st_size != 0:
-        with open(__ENTRY_FILE, 'r') as file:
-            return jsonpickle.decode(file.read())
-    else:
-        return []
+    decrypted_content = read_and_decrypt(__ENTRY_FILE)
+    entries = jsonpickle.decode(decrypted_content) if decrypted_content is not None else []
+    return entries
+
 
 def entry_edit(edited_entry):
     entries = entry_list()
     for entry in entries:
-        if(entry.entity_id == edited_entry.entity_id):
+        if entry.entity_id == edited_entry.entity_id:
+            edited_entry.modified_date = util.get_current_date()
             entries.remove(entry)
             entries.append(edited_entry)
-            break   
-    
-    with open(__ENTRY_FILE, 'w') as file:
-        file.write(jsonpickle.encode(entries))
+            break
+
+    encrypt_and_save(__ENTRY_FILE, jsonpickle.encode(entries))
+
 
 def entry_delete(entry_id):
     entries = entry_list()
     for entry in entries:
-        if(entry.entity_id == entry_id):
+        if entry.entity_id == entry_id:
             entries.remove(entry)
-            break   
-    
-    with open(__ENTRY_FILE, 'w') as file:
-        file.write(jsonpickle.encode(entries))
+            break
+
+    encrypt_and_save(__ENTRY_FILE, jsonpickle.encode(entries))
+
 
 def entry_get_by_id(entry_id):
     for entry in entry_list():
-        if(entry.entity_id == entry_id):
+        if entry.entity_id == entry_id:
             return entry
+
 
 def entry_delete_all():
     if Path(__ENTRY_FILE).is_file() and os.stat(__ENTRY_FILE).st_size != 0:
         with open(__ENTRY_FILE, 'w') as file:
             file.write("[]")   
-      
+
+
 def category_delete_all():
     if Path(__CATEGORY_FILE).is_file() and os.stat(__CATEGORY_FILE).st_size != 0:
         with open(__CATEGORY_FILE, 'w') as file:
@@ -129,8 +138,20 @@ def entity_search(search_ctg, search_type, search_name):
     result = []
     cat_id = None if search_ctg is None else category_get_by_name(search_ctg).entity_id
     for entry in entry_list():
-        if((cat_id is None or entry.category_id == cat_id) and
-            (search_type is None or entry.entry_type == search_type) and
-            (search_name is None or search_name.lower() in entry.name.lower())):
+        if(cat_id is None or entry.category_id == cat_id) and \
+                (search_type is None or entry.entry_type == search_type) and \
+                (search_name is None or search_name.lower() in entry.name.lower()):
             result.append(entry)
     return result;
+
+
+def encrypt_and_save(file_name, content):
+    with open(file_name, 'w') as file:
+        encrypted_content = security.encrypt_data(content)
+        file.write(encrypted_content.decode('utf-8'))
+
+
+def read_and_decrypt(file_name):
+    if Path(file_name).is_file() and os.stat(file_name).st_size != 0:
+        with open(file_name, 'r') as file:
+            return security.decrypt_data(file.read().encode())

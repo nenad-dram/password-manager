@@ -66,13 +66,13 @@ def on_btn_info(row_id):
     child = create_EntryDetailsWindow(root, services.entry_get_by_id(row_id))
     root.wait_window(child[0])
     if child[1].update_parent:
-        update_rows(services.entry_list)
+        update_rows(services.entry_list())
 
 def on_create_new():
     child = create_NewEntryWindow(root)
     root.wait_window(child[0])
     if child[1].update_parent:
-        update_rows(services.entry_list)
+        update_rows(services.entry_list())
 
 def on_reset_req():
     to_reset = messagebox.askyesno("Reset data", "All data will be removed. Are you sure?")
