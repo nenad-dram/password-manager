@@ -10,8 +10,11 @@ import os
 from model import settings, util, security
 import jsonpickle
 
-__CATEGORY_FILE = os.path.join(os.path.dirname(__file__),'../../data/categories.json')
-__ENTRY_FILE = os.path.join(os.path.dirname(__file__),'../../data/entries')
+__CATEGORY_FILE = os.path.join(os.path.dirname(__file__), '../../data/categories.json')
+__ENTRY_FILE = os.path.join(os.path.dirname(__file__), '../../data/entries')
+
+category_list_cache = []
+entry_list_cache = []
 
 
 def category_add(name, description):
@@ -20,45 +23,42 @@ def category_add(name, description):
     cat_id = int(cat_id) if cat_id else 1  
     category = Category(cat_id, name, description, util.get_current_date())
     
-    categories = category_list()
-    categories.append(category)
-        
+    category_list_cache.append(category)
+
     with open(__CATEGORY_FILE, 'w') as file:
-        file.write(jsonpickle.encode(categories))
+        file.write(jsonpickle.encode(category_list_cache))
 
     settings.set_next_entity_id(cat_id + 1)
 
 
 def category_edit(edited_cat):
-    categories = category_list()
-    for category in categories:
+    for index, category in enumerate(category_list_cache):
         if category.entity_id == edited_cat.entity_id:
             edited_cat.modified_date = util.get_current_date()
-            categories.remove(category)
-            categories.append(edited_cat)
+            category_list_cache[index] = edited_cat
             break   
     
     with open(__CATEGORY_FILE, 'w') as file:
-        file.write(jsonpickle.encode(categories))
+        file.write(jsonpickle.encode(category_list_cache))
 
 
 def category_delete(cat_id):
     categories = category_list()
     for category in categories:
         if category.entity_id == cat_id:
-            categories.remove(category)
+            category_list_cache.remove(category)
             break   
     
     with open(__CATEGORY_FILE, 'w') as file:
-        file.write(jsonpickle.encode(categories))
+        file.write(jsonpickle.encode(category_list_cache))
 
 
 def category_list():
-    if Path(__CATEGORY_FILE).is_file() and os.stat(__CATEGORY_FILE).st_size != 0:
+    global category_list_cache
+    if len(category_list_cache) == 0 and util.file_exists_and_not_empty(__CATEGORY_FILE):
         with open(__CATEGORY_FILE, 'r') as file:
-            return jsonpickle.decode(file.read())
-    else:
-        return []
+            category_list_cache = jsonpickle.decode(file.read())
+    return category_list_cache
 
 
 def category_get_by_name(name):
@@ -69,7 +69,6 @@ def category_get_by_name(name):
 
 def category_get_by_id(cat_id):
     for category in category_list():
-
         if category.entity_id == cat_id:
             return category
 
@@ -89,9 +88,12 @@ def entry_add(name, value, entry_type, category, description, username, email):
 
 
 def entry_list():
-    decrypted_content = read_and_decrypt(__ENTRY_FILE)
-    entries = jsonpickle.decode(decrypted_content) if decrypted_content is not None else []
-    return entries
+    global entry_list_cache
+
+    if len(entry_list_cache) == 0 and util.file_exists_and_not_empty(__ENTRY_FILE):
+        entry_list_cache = jsonpickle.decode(read_and_decrypt(__ENTRY_FILE))
+
+    return entry_list_cache
 
 
 def entry_edit(edited_entry):
@@ -123,15 +125,17 @@ def entry_get_by_id(entry_id):
 
 
 def entry_delete_all():
-    if Path(__ENTRY_FILE).is_file() and os.stat(__ENTRY_FILE).st_size != 0:
-        with open(__ENTRY_FILE, 'w') as file:
-            file.write("[]")   
+    global entry_list_cache
+    entry_list_cache = []
+    encrypt_and_save(__ENTRY_FILE, str(entry_list_cache))
 
 
 def category_delete_all():
-    if Path(__CATEGORY_FILE).is_file() and os.stat(__CATEGORY_FILE).st_size != 0:
+    global category_list_cache
+    category_list_cache = []
+    if util.file_exists_and_not_empty(__CATEGORY_FILE):
         with open(__CATEGORY_FILE, 'w') as file:
-            file.write("[]")
+            file.write(str(category_list_cache))
 
 
 def entity_search(search_ctg, search_type, search_name):
@@ -142,7 +146,7 @@ def entity_search(search_ctg, search_type, search_name):
                 (search_type is None or entry.entry_type == search_type) and \
                 (search_name is None or search_name.lower() in entry.name.lower()):
             result.append(entry)
-    return result;
+    return result
 
 
 def encrypt_and_save(file_name, content):
@@ -152,6 +156,6 @@ def encrypt_and_save(file_name, content):
 
 
 def read_and_decrypt(file_name):
-    if Path(file_name).is_file() and os.stat(file_name).st_size != 0:
+    if util.file_exists_and_not_empty(file_name):
         with open(file_name, 'r') as file:
             return security.decrypt_data(file.read().encode())
