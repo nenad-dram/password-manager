@@ -88,8 +88,8 @@ def on_save(entry):
         w.lblMsg.configure(text='Value can\'t be empty!')
         return
     
-    if (sel_type == 'account' and ((email.isspace() or len(email) == 0) 
-                                   and (username.isspace() or len(username) == 0))):
+    if (sel_type == data_model.EntryType.ACCOUNT.value and ((email.isspace() or len(email) == 0)
+                                                    and (username.isspace() or len(username) == 0))):
         w.lblMsg.configure(text='Account must have username or e-mail value!')
         return
     
@@ -127,15 +127,10 @@ def enable_for_edit(to_enable):
     w.catSelMenu.configure(state=enable_state)
     w.entryName.configure(state=enable_state)
     w.entryValue.configure(state=enable_state)
-    w.entryUsername.configure(state=enable_state)
-    w.entryEmail.configure(state=enable_state)
     w.textDesc.configure(state=enable_state)
         
     w.btnSave.configure(state=enable_state)
-    
-    if settings.get_default_email() is not None and settings.get_default_email() != "":
-        w.checkDefEmail.configure(state=enable_state)
-        w.checkDefEmail.configure(command=on_check_email)
+    on_option_select()
     
     w.btnEdit.configure(state="normal" if not to_enable else "disabled")
 
@@ -151,7 +146,10 @@ def on_option_select(*args):
             
     w.entryEmail.configure(state=state_val)
     w.entryUsername.configure(state=state_val)
-    w.checkDefEmail.configure(state=state_val)
+
+    if settings.get_default_email() is not None and settings.get_default_email() != "":
+        w.checkDefEmail.configure(state=state_val)
+        w.checkDefEmail.configure(command=on_check_email)
 
 
 def on_check_email():
