@@ -4,10 +4,10 @@ Created on Feb 26, 2020
 @author: ndramica
 '''
 import configparser
-import os
+from model import util, services
 
 __APP_SETTINGS = 'APP SETTINGS'
-__DATA_CONFIG_FILE = os.path.join(os.path.dirname(__file__), '../../data/data.ini')
+__DATA_CONFIG_FILE = util.get_root_path() + '/data/data.ini'
 
 __NEXT_CAT_ID_KEY = 'next_category_id'
 __NEXT_ENT_ID_KEY = 'next_entry_id'
@@ -18,12 +18,12 @@ __all_settings = [__NEXT_CAT_ID_KEY, __NEXT_ENT_ID_KEY, __DEFAULT_EMAIL__KEY, __
 
 
 def init():
+    services.make_data_dir()
     config = configparser.ConfigParser()
     config.add_section(__APP_SETTINGS)
-    open(__DATA_CONFIG_FILE, 'w')
     for key in __all_settings:
         config[__APP_SETTINGS][key] = ""
-    with open(__DATA_CONFIG_FILE, 'w') as configfile:
+    with open(__DATA_CONFIG_FILE, 'w+') as configfile:
         config.write(configfile)
 
 
@@ -41,7 +41,7 @@ def __save(key, value):
     if not config.read(__DATA_CONFIG_FILE):
         config.add_section(__APP_SETTINGS)
     config[__APP_SETTINGS][key] = value
-    with open(__DATA_CONFIG_FILE, 'w') as configfile:
+    with open(__DATA_CONFIG_FILE, 'w+') as configfile:
         config.write(configfile)
 
 

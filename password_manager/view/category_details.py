@@ -5,9 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 05, 2020 10:33:21 AM CET  platform: Windows NT
 
-import platform
-import os
-
 try:
     import Tkinter as tk
 except ImportError:
@@ -21,6 +18,8 @@ except ImportError:
     py3 = True
 
 from support import category_details_support
+from view import window_util
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -31,6 +30,7 @@ def vp_start_gui():
     root.mainloop()
 
     w = None
+
 def create_CategoryDetailsWindow(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
@@ -58,7 +58,7 @@ class CategoryDetailsWindow:
         width = 355
         height = 432
         
-        center = get_center_points(width, height)
+        center = window_util.get_center_points(top, width, height)
         
         top.geometry("{}x{}+{}+{}".format(width, height, center[0], center[1]))
 
@@ -70,6 +70,8 @@ class CategoryDetailsWindow:
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
         top.grab_set()
+
+        top.iconbitmap(window_util.get_icon_path())
 
         self.frameBody = tk.Frame(top)
         self.frameBody.place(relx=0.0, rely=0.0, relheight=1.007, relwidth=1.003)
@@ -199,23 +201,4 @@ class CategoryDetailsWindow:
         self.lblMsg.configure(background="#d9d9d9")
         self.lblMsg.configure(disabledforeground="#a3a3a3")
         self.lblMsg.configure(foreground="#ff0000")
-        
-        set_icon()
 
-if __name__ == '__main__':
-    vp_start_gui()
-
-
-def get_center_points(width, height):
-    center_x = int((rt.winfo_screenwidth()/2) - (width/2))
-    center_y = int((rt.winfo_screenheight()/2) - (height/2))
-    return (center_x, center_y)
-
-def set_icon():
-    try:
-        if (platform.system() == 'Linux'):
-            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.xbm'))
-        else:
-            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.ico'))
-    except:
-        print("Unable to load logo image")

@@ -5,13 +5,16 @@ Created on Jan 20, 2020
 '''
 
 from model.data_model import Category, Entry
-from pathlib import Path
-import os
 from model import settings, util, security
 import jsonpickle
+import os
 
-__CATEGORY_FILE = os.path.join(os.path.dirname(__file__), '../../data/categories.json')
-__ENTRY_FILE = os.path.join(os.path.dirname(__file__), '../../data/entries')
+__DATA_DIR_NAME = 'data'
+__CATEGORY_FILE_NAME = 'categories.json'
+__ENTRY_FILE_NAME = 'entries'
+
+__CATEGORY_FILE = os.path.join(util.get_root_path(), __DATA_DIR_NAME, __CATEGORY_FILE_NAME)
+__ENTRY_FILE = os.path.join(util.get_root_path(), __DATA_DIR_NAME, __ENTRY_FILE_NAME)
 
 category_list_cache = []
 entry_list_cache = []
@@ -25,7 +28,7 @@ def category_add(name, description):
     
     category_list_cache.append(category)
 
-    with open(__CATEGORY_FILE, 'w') as file:
+    with open(__CATEGORY_FILE, 'w+') as file:
         file.write(jsonpickle.encode(category_list_cache))
 
     settings.set_next_entity_id(cat_id + 1)
@@ -49,7 +52,7 @@ def category_delete(cat_id):
             category_list_cache.remove(category)
             break   
     
-    with open(__CATEGORY_FILE, 'w') as file:
+    with open(__CATEGORY_FILE, 'w+') as file:
         file.write(jsonpickle.encode(category_list_cache))
 
 
@@ -150,7 +153,7 @@ def entity_search(search_ctg, search_type, search_name):
 
 
 def encrypt_and_save(file_name, content):
-    with open(file_name, 'w') as file:
+    with open(file_name, 'w+') as file:
         encrypted_content = security.encrypt_data(content)
         file.write(encrypted_content.decode('utf-8'))
 
@@ -159,3 +162,9 @@ def read_and_decrypt(file_name):
     if util.file_exists_and_not_empty(file_name):
         with open(file_name, 'r') as file:
             return security.decrypt_data(file.read().encode())
+
+
+def make_data_dir():
+    data_dir = os.path.join(util.get_root_path(), __DATA_DIR_NAME)
+    if not os.path.exists(data_dir):
+        os.mkdir(data_dir)

@@ -5,8 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 23, 2020 05:51:23 PM CET  platform: Windows NT
 
-import sys
-
 try:
     import Tkinter as tk
 except ImportError:
@@ -20,6 +18,8 @@ except ImportError:
     py3 = True
 
 from support import registration_support
+from view import window_util
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -65,9 +65,9 @@ class RegistrationWindow:
 
         width = 445
         height = 280
-        
-        center = get_center_points(width, height)
-        
+
+        center = window_util.get_center_points(top, width, height)
+
         top.geometry("{}x{}+{}+{}".format(width, height, center[0], center[1]))
         
         top.minsize(176, 1)
@@ -172,11 +172,6 @@ class RegistrationWindow:
         self.lblMsg.configure(background="#d9d9d9")
         self.lblMsg.configure(disabledforeground="#a3a3a3")
         self.lblMsg.configure(foreground="#ff0000")
-
-def get_center_points(width, height):
-    center_x = int((rt.winfo_screenwidth()/2) - (width/2))
-    center_y = int((rt.winfo_screenheight()/2) - (height/2))
-    return (center_x, center_y)
 
 
 

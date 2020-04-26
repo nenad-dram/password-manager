@@ -5,9 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 29, 2020 02:16:38 PM CET  platform: Linux
 
-import sys
 from tkinter import StringVar, OptionMenu
-import platform
 
 try:
     import Tkinter as tk
@@ -22,7 +20,7 @@ except ImportError:
     py3 = True
 
 from support import entry_search_support
-import os
+from view import window_util
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -62,7 +60,7 @@ class SearchEntryWidnow:
         width = 383
         height = 200
         
-        center = get_center_points(width, height)
+        center = window_util.get_center_points(top, width, height)
         
         top.geometry("{}x{}+{}+{}".format(width, height, center[0], center[1]))
 
@@ -70,6 +68,8 @@ class SearchEntryWidnow:
         top.maxsize(5764, 1590)
         top.title("Search Entry")
         top.configure(highlightcolor="black")
+
+        top.iconbitmap(window_util.get_icon_path())
 
         self.frameBody = tk.Frame(top)
         self.frameBody.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
@@ -177,22 +177,3 @@ class SearchEntryWidnow:
         self.lblMsg.configure(background="#d9d9d9")
         self.lblMsg.configure(disabledforeground="#a3a3a3")
         self.lblMsg.configure(foreground="#ff0000")
-        
-        set_icon()
-
-if __name__ == '__main__':
-    vp_start_gui()
-
-def get_center_points(width, height):
-    center_x = int((root.winfo_screenwidth()/2) - (width/2))
-    center_y = int((root.winfo_screenheight()/2) - (height/2))
-    return (center_x, center_y)
-
-def set_icon():
-    try:
-        if (platform.system() == 'Linux'):
-            w.iconbitmap('@' + os.path.join(os.path.dirname(__file__), '../../resources/padlock.xbm'))
-        else:
-            w.iconbitmap('@' + os.path.join(os.path.dirname(__file__), '../../resources/padlock.ico'))
-    except:
-        print("Unable to load logo image")

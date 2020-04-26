@@ -6,7 +6,8 @@
 #    Feb 04, 2020 07:07:23 PM CET  platform: Windows NT
 
 import sys
-import os
+
+from view import window_util
 
 try:
     import Tkinter as tk
@@ -21,6 +22,7 @@ except ImportError:
     py3 = True
 
 from support import category_management_support
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -45,7 +47,7 @@ def destroy_categManWindow():
     w.destroy()
     w = None
 
-class CategManWindow:
+class CategManWindow():
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -66,7 +68,7 @@ class CategManWindow:
         width = 562
         height = 423
         
-        center = get_center_points(width, height)
+        center = window_util.get_center_points(top, width, height)
         
         top.geometry("{}x{}+{}+{}".format(width, height, center[0], center[1]))
         
@@ -77,6 +79,8 @@ class CategManWindow:
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
+
+        top.iconbitmap(window_util.get_icon_path())
 
         self.header = tk.Frame(top)
         self.header.place(relx=0.0, rely=0.0, relheight=0.106, relwidth=1.0)
@@ -205,8 +209,7 @@ class CategManWindow:
         self.CategoryTreeView.column("Col2",minwidth="20")
         self.CategoryTreeView.column("Col2",stretch="1")
         self.CategoryTreeView.column("Col2",anchor="c")
-        
-        set_icon()
+
 
 # The following code is added to facilitate the Scrolled widgets you specified.
 class AutoScroll(object):
@@ -328,20 +331,3 @@ def _on_shiftmouse(event, widget):
             widget.xview_scroll(-1, 'units')
         elif event.num == 5:
             widget.xview_scroll(1, 'units')
-
-if __name__ == '__main__':
-    vp_start_gui()
-
-def get_center_points(width, height):
-    center_x = int((rt.winfo_screenwidth()/2) - (width/2))
-    center_y = int((rt.winfo_screenheight()/2) - (height/2))
-    return (center_x, center_y)
-
-def set_icon():
-    try:
-        if (platform.system() == 'Linux'):
-            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.xbm'))
-        else:
-            w.iconbitmap('@'+os.path.join(os.path.dirname(__file__), '../../resources/padlock.ico'))
-    except:
-        print("Unable to load logo image")

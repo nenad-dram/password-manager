@@ -8,6 +8,7 @@ import pyperclip
 
 from pathlib import Path
 import os
+import sys
 
 
 def get_current_date():
@@ -20,3 +21,8 @@ def copy_to_clipboard(text):
 
 def file_exists_and_not_empty(file_name):
     return Path(file_name).is_file() and os.stat(file_name).st_size != 0
+
+
+def get_root_path():
+    return sys._MEIPASS if getattr(sys, 'frozen', False) else \
+        os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)

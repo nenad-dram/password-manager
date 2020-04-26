@@ -5,8 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 26, 2020 12:39:14 PM CET  platform: Windows NT
 
-import sys
-
 try:
     import Tkinter as tk
 except ImportError:
@@ -20,6 +18,8 @@ except ImportError:
     py3 = True
 
 from support import default_email_support
+from view import window_util
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -57,7 +57,7 @@ class DefaultEmail:
         width = 450
         height = 112
         
-        center = get_center_points(width, height)
+        center = window_util.get_center_points(top, width, height)
         
         top.geometry("{}x{}+{}+{}".format(width, height, center[0], center[1]))
         
@@ -66,6 +66,8 @@ class DefaultEmail:
         top.resizable(1, 1)
         top.title("Default E-mail")
         top.configure(background="#d9d9d9")
+
+        top.iconbitmap(window_util.get_icon_path())
 
         self.entryEmail = tk.Entry(top)
         self.entryEmail.place(relx=0.253, rely=0.179,height=21, relwidth=0.694)
@@ -111,11 +113,6 @@ class DefaultEmail:
         self.lblMsg.configure(background="#d9d9d9")
         self.lblMsg.configure(disabledforeground="#a3a3a3")
         self.lblMsg.configure(foreground="#ff0000")
-
-def get_center_points(width, height):
-    center_x = int((rt.winfo_screenwidth()/2) - (width/2))
-    center_y = int((rt.winfo_screenheight()/2) - (height/2))
-    return (center_x, center_y)
     
 
 

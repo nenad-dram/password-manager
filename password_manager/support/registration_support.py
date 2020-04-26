@@ -5,10 +5,9 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 23, 2020 05:53:07 PM CET  platform: Windows NT
 
-import sys
 from tkinter import messagebox
 from model import security, settings
-from view.login import vp_start_gui as start_login, create_loginWindow
+from view.login import create_loginWindow
 
 try:
     import Tkinter as tk
@@ -53,4 +52,3 @@ def on_register_btn():
     
     destroy_window()
     create_loginWindow(tk.Tk())
-    
