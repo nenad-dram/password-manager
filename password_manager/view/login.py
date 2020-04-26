@@ -25,7 +25,6 @@ def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = tk.Tk()
-    root.iconbitmap('../resources/padlock.ico')
     top = LoginWindow (root)
     login_support.init(root, top)
     root.mainloop()

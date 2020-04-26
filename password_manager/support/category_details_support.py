@@ -5,7 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 05, 2020 10:33:27 AM CET  platform: Windows NT
 
-import sys
 from model import services
 
 try:
@@ -20,6 +19,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -27,15 +27,17 @@ def init(top, gui, *args, **kwargs):
     root = top
     draw_form(args[0], args[1])
 
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
 
+
 def draw_form(action, category):
-    w.btnCancel.configure(command = destroy_window)
-    w.btnSave.configure(command = lambda: on_Save_btn(category))
+    w.btnCancel.configure(command=destroy_window)
+    w.btnSave.configure(command=lambda: on_save_btn(category))
     
     w.entId.insert(0, category.entity_id)
     w.entName.insert(0, category.name)
@@ -44,16 +46,17 @@ def draw_form(action, category):
     w.entId.configure(state="readonly")
     w.entModDate.configure(state="readonly")
     
-    if (action == 'info'):
+    if action == 'info':
         w.entName.configure(state="readonly")
         w.txtDescripton.configure(state="disabled")
         w.btnSave.place_forget()
-    
-def on_Save_btn(category):
+
+
+def on_save_btn(category):
     name = w.entName.get()
-    description = w.txtDescripton.get("1.0",tk.END) if not w.txtDescripton.get("1.0",tk.END).isspace() else ""
-    if (name.isspace() or len(name) == 0):
-        w.lblMsg.configure(text = 'Name can\'t be empty!')
+    description = w.txtDescripton.get("1.0", tk.END) if not w.txtDescripton.get("1.0", tk.END).isspace() else ""
+    if name.isspace() or len(name) == 0:
+        w.lblMsg.configure(text='Name can\'t be empty!')
         return
     category.name = name
     category.description = description

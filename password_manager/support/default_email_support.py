@@ -5,7 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 26, 2020 12:39:17 PM CET  platform: Windows NT
 
-import sys
 from model import settings
 
 try:
@@ -20,20 +19,23 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
-    w.btnCancel.configure(command = destroy_window)
-    w.btnSave.configure(command = save_email)
+    w.btnCancel.configure(command=destroy_window)
+    w.btnSave.configure(command=save_email)
     w.entryEmail.insert(0, settings.get_default_email())
+
 
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
+
 
 def save_email():
     email = w.entryEmail.get().replace(' ', '')

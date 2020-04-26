@@ -21,12 +21,14 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
     gui.btnSubmit.configure(command = on_register_btn)
+
 
 def destroy_window():
     # Function which closes the window.
@@ -49,6 +51,6 @@ def on_register_btn():
     settings.init()
     security.save_master_pwd(password)
     messagebox.showinfo('Registration', 'Registration successful, please login!')
-    
+
     destroy_window()
     create_loginWindow(tk.Tk())

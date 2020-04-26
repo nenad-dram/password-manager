@@ -5,7 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 03, 2020 07:27:52 PM CET  platform: Windows NT
 
-import sys
 from view.category_new import create_CategoryNewWindow
 from model import services
 from view.category_details import create_CategoryDetailsWindow
@@ -22,14 +21,16 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
-    gui.btnNewCat.configure(command = on_btn_create_new)
+    gui.btnNewCat.configure(command=on_btn_create_new)
     gui.CategoryTreeView.bind('<<TreeviewSelect>>', on_row_select)
     insert_rows()
+
 
 def destroy_window():
     # Function which closes the window.
@@ -37,15 +38,18 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
+
 def on_btn_create_new():
     child = create_CategoryNewWindow(root)
     root.wait_window(child[0])
     update_rows()
 
+
 def insert_rows():
     categories = services.category_list()
     for cat in categories:
         w.CategoryTreeView.insert('', 'end', text=cat.entity_id, values=(cat.name, cat.description))
+
 
 def update_rows():
     w.btnCatInfo.configure(state="disabled")
@@ -53,24 +57,28 @@ def update_rows():
     w.btnCatDelete.configure(state="disabled")
     w.CategoryTreeView.delete(*w.CategoryTreeView.get_children())
     insert_rows()
-    
+
+
 def on_row_select(event):
     row_id = w.CategoryTreeView.item(event.widget.selection())["text"]
-    w.btnCatInfo.configure(command = lambda: on_btn_cat_info(row_id))
-    w.btnCatEdit.configure(command = lambda: on_btn_cat_edit(row_id))
-    w.btnCatDelete.configure(command = lambda: on_btn_cat_delete(row_id))
+    w.btnCatInfo.configure(command=lambda: on_btn_cat_info(row_id))
+    w.btnCatEdit.configure(command=lambda: on_btn_cat_edit(row_id))
+    w.btnCatDelete.configure(command=lambda: on_btn_cat_delete(row_id))
     w.btnCatInfo.configure(state="normal")
     w.btnCatEdit.configure(state="normal")
     w.btnCatDelete.configure(state="normal")
 
+
 def on_btn_cat_info(row_id):
     create_CategoryDetailsWindow(root, 'info', services.category_get_by_id(row_id))
+
+
 def on_btn_cat_edit(row_id):
     child = create_CategoryDetailsWindow(root, 'edit', services.category_get_by_id(row_id))
     root.wait_window(child[0])
     update_rows()
 
+
 def on_btn_cat_delete(row_id):
     services.category_delete(row_id)
     update_rows()
-    

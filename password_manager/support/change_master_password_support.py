@@ -5,7 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 27, 2020 01:42:39 PM CET  platform: Windows NT
 
-import sys
 from model import security
 
 try:
@@ -20,6 +19,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -29,11 +29,13 @@ def init(top, gui, *args, **kwargs):
     gui.btnCancel.configure(command = destroy_window)
     gui.btnChange.configure(command = on_change_btn)
 
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
+
 
 def on_change_btn():
     
@@ -41,15 +43,15 @@ def on_change_btn():
     new_pwd = w.entNewPwd.get().strip()
     rpt_pwd = w.entRptPwd.get().strip()
     
-    if (len(curr_pwd) == 0 or len(new_pwd) == 0 or len(rpt_pwd) == 0):
+    if len(curr_pwd) == 0 or len(new_pwd) == 0 or len(rpt_pwd) == 0:
         w.lblMsg.configure(text="Please enter all values!")
         return
     
-    if (not security.master_pwd_valid(curr_pwd)):
+    if not security.master_pwd_valid(curr_pwd):
         w.lblMsg.configure(text="Invalid current password!")
         return
     
-    if(new_pwd != rpt_pwd):
+    if new_pwd != rpt_pwd:
         w.lblMsg.configure(text="New and Repeat password aren't equal!")
         return
     

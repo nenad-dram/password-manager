@@ -5,7 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 23, 2020 09:45:19 PM CET  platform: Windows NT
 
-import sys
 from tkinter import messagebox
 from model import security
 from view import main_window
@@ -22,6 +21,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -29,14 +29,16 @@ def init(top, gui, *args, **kwargs):
     root = top
     gui.btnLogin.configure(command = on_login_btn)
 
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
 
+
 def on_login_btn():
-    login_pwd = w.entMasterPwd.get().replace(' ','')
+    login_pwd = w.entMasterPwd.get().replace(' ', '')
     if len(login_pwd) == 0:
         messagebox.showerror('Login', 'Please enter value!')
         return
@@ -45,4 +47,3 @@ def on_login_btn():
             messagebox.showerror('Login', 'Incorrect password!')
             return
         main_window.create_MainWindow(root)
-    

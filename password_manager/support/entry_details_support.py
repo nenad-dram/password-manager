@@ -5,7 +5,6 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 11, 2020 09:40:19 PM CET  platform: Windows NT
 
-import sys
 from model.data_model import EntryType
 from model import services, settings, util
 
@@ -21,42 +20,45 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
     gui.update_parent = False
-    gui.btnClose.configure(command = destroy_window)
-    type_menu=gui.typeSelMenu["menu"]
+    gui.btnClose.configure(command=destroy_window)
+    type_menu = gui.typeSelMenu["menu"]
     type_menu.delete(0, "end")
     for val in [e.value for e in EntryType]:
-        type_menu.add_command(label=val, command= lambda value=val: gui.selType.set(value))
+        type_menu.add_command(label=val, command=lambda value=val: gui.selType.set(value))
         type_menu.configure(activebackground="#a7a7a7", background="#d9d9d9")
         type_menu.configure(foreground="#000000", activeforeground="#000000")
     
-    cat_menu=gui.catSelMenu["menu"]
+    cat_menu = gui.catSelMenu["menu"]
     cat_menu.delete(0, "end")
     for val in [c.name for c in services.category_list()]:
-        cat_menu.add_command(label=val, command= lambda value=val: gui.selCat.set(value))
+        cat_menu.add_command(label=val, command=lambda value=val: gui.selCat.set(value))
         cat_menu.configure(background="#d9d9d9", activebackground="#a7a7a7")
         cat_menu.configure(foreground="#000000", activeforeground="#000000")
 
     fill_form(args[0])
 
     gui.chBtnShow.configure(command=lambda: gui.entryValue.configure(show="" if w.setChBtnShow.get() else "*"))
-    gui.btnEdit.configure(command = lambda: enable_for_edit(True))
-    gui.btnSave.configure(command = lambda: on_save(args[0]))
-    gui.btnDelete.configure(command = lambda: on_delete(args[0].entity_id))
+    gui.btnEdit.configure(command=lambda: enable_for_edit(True))
+    gui.btnSave.configure(command=lambda: on_save(args[0]))
+    gui.btnDelete.configure(command=lambda: on_delete(args[0].entity_id))
     gui.selType.trace('w', on_option_select)
     
     conf_copy_btns(args[0])
-    
+
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
+
 
 def fill_form(entry):
     w.entryId.insert(0, entry.entity_id)
@@ -75,6 +77,7 @@ def fill_form(entry):
     
     enable_for_edit(False)
 
+
 def on_save(entry):
     global update_parent
     sel_type = w.selType.get()
@@ -86,17 +89,17 @@ def on_save(entry):
     email = w.entryEmail.get()
     username = w.entryUsername.get()   
     
-    if (name.isspace() or len(name) == 0):
-        w.lblMsg.configure(text = 'Name can\'t be empty!')
+    if name.isspace() or len(name) == 0:
+        w.lblMsg.configure(text='Name can\'t be empty!')
         return
     
-    if (value.isspace() or len(value) == 0):
-        w.lblMsg.configure(text = 'Value can\'t be empty!')
+    if value.isspace() or len(value) == 0:
+        w.lblMsg.configure(text='Value can\'t be empty!')
         return
     
     if (sel_type == 'account' and ((email.isspace() or len(email) == 0) 
                                    and (username.isspace() or len(username) == 0))):
-        w.lblMsg.configure(text = 'Account must have username or e-mail value!')
+        w.lblMsg.configure(text='Account must have username or e-mail value!')
         return
     
     entry.entry_type = sel_type
@@ -110,18 +113,19 @@ def on_save(entry):
     services.entry_edit(entry)
     
     w.lblMsg.configure(foreground="#008000")
-    w.lblMsg.configure(text = 'Entry updated!')
+    w.lblMsg.configure(text='Entry updated!')
     
-    w.update_parent = True;
+    w.update_parent = True
     destroy_window()
-    
+
+
 def on_delete(entry_id):
     
     services.entry_delete(entry_id)
     w.lblMsg.configure(foreground="#008000")
-    w.lblMsg.configure(text = 'Entry deleted!')
+    w.lblMsg.configure(text='Entry deleted!')
     
-    w.update_parent = True;
+    w.update_parent = True
     
     destroy_window()    
 
@@ -140,36 +144,39 @@ def enable_for_edit(to_enable):
     
     if settings.get_default_email() is not None and settings.get_default_email() != "":
         w.checkDefEmail.configure(state=enable_state)
-        w.checkDefEmail.configure(command = on_check_email)
+        w.checkDefEmail.configure(command=on_check_email)
     
-    w.btnEdit.configure(state = "normal" if not to_enable else "disabled")
+    w.btnEdit.configure(state="normal" if not to_enable else "disabled")
+
 
 def on_option_select(*args):
     option = w.selType.get()
-    stateVal = "disabled"
-    if(option == "account"):
-        stateVal = "normal"
+    state_val = "disabled"
+    if option == "account":
+        state_val = "normal"
     else:
         w.entryEmail.delete(0, 'end')
         w.entryUsername.delete(0, 'end')
             
-    w.entryEmail.configure(state=stateVal)
-    w.entryUsername.configure(state=stateVal)
-    w.checkDefEmail.configure(state=stateVal)
+    w.entryEmail.configure(state=state_val)
+    w.entryUsername.configure(state=state_val)
+    w.checkDefEmail.configure(state=state_val)
+
 
 def on_check_email():
     email = ""
-    if (w.chDfEmVal.get()):
+    if w.chDfEmVal.get():
         email = settings.get_default_email()
     w.entryEmail.delete(0, 'end')  
     w.entryEmail.insert(0, email)
 
+
 def conf_copy_btns(entry):
     w.btnCopyVal.configure(command = lambda: util.copy_to_clipboard(w.entryValue.get()))
 
-    if (entry.entry_type == "account" and len(entry.email) > 0):
-        w.btnCopyEmail.configure(state = "normal")
-        w.btnCopyEmail.configure(command = lambda: util.copy_to_clipboard(entry.email))
-    if (entry.entry_type == "account" and len(entry.username) > 0):
-        w.btnCopyUser.configure(state = "normal")
-        w.btnCopyUser.configure(command = lambda: util.copy_to_clipboard(entry.username))
+    if entry.entry_type == "account" and len(entry.email) > 0:
+        w.btnCopyEmail.configure(state="normal")
+        w.btnCopyEmail.configure(command=lambda: util.copy_to_clipboard(entry.email))
+    if entry.entry_type == "account" and len(entry.username) > 0:
+        w.btnCopyUser.configure(state="normal")
+        w.btnCopyUser.configure(command=lambda: util.copy_to_clipboard(entry.username))

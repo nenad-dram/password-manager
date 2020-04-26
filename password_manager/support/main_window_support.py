@@ -24,43 +24,48 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
-    gui.sub_menu.entryconfig(0, command = lambda: category_management.create_CategManWindow(top))
-    gui.sub_menu.entryconfig(5, command = destroy_window)
-    gui.btnNewEnt.configure(command = on_create_new)
-    gui.btnSearch.configure(command = on_search_btn)
+    gui.sub_menu.entryconfig(0, command=lambda: category_management.create_CategManWindow(top))
+    gui.sub_menu.entryconfig(5, command=destroy_window)
+    gui.btnNewEnt.configure(command=on_create_new)
+    gui.btnSearch.configure(command=on_search_btn)
     gui.treeviewRows.bind('<<TreeviewSelect>>', on_row_select)
-    gui.sub_menu.entryconfig(1, command = lambda: default_email.create_DefaultEmailWindow(top))
-    gui.sub_menu.entryconfig(2, command = lambda: change_master_password.create_ChangeMasterPwdWindow(top))
-    gui.sub_menu.entryconfig(3, command = on_reset_req)
+    gui.sub_menu.entryconfig(1, command=lambda: default_email.create_DefaultEmailWindow(top))
+    gui.sub_menu.entryconfig(2, command=lambda: change_master_password.create_ChangeMasterPwdWindow(top))
+    gui.sub_menu.entryconfig(3, command=on_reset_req)
     
     insert_rows(services.entry_list())
-    
+
+
 def destroy_window():
     # Function which closes the window.
     global top_level
     top_level.destroy()
     top_level = None
 
+
 def insert_rows(entry_list):
     for ent in entry_list:
-            category = services.category_get_by_id(ent.category_id).name
-            w.treeviewRows.insert('', 'end', text=ent.entity_id,
-                             values=(ent.name, category, ent.entry_type))
+        category = services.category_get_by_id(ent.category_id).name
+        w.treeviewRows.insert('', 'end', text=ent.entity_id, values=(ent.name, category, ent.entry_type))
+
 
 def update_rows(entry_list):
     w.btnInfo.configure(state="disabled")
     w.treeviewRows.delete(*w.treeviewRows.get_children())
     insert_rows(entry_list)
 
+
 def on_row_select(event):
     row_id = w.treeviewRows.item(event.widget.selection())["text"]
-    w.btnInfo.configure(command = lambda: on_btn_info(row_id))
+    w.btnInfo.configure(command=lambda: on_btn_info(row_id))
     w.btnInfo.configure(state="normal")
+
 
 def on_btn_info(row_id):
     child = create_EntryDetailsWindow(root, services.entry_get_by_id(row_id))
@@ -68,25 +73,24 @@ def on_btn_info(row_id):
     if child[1].update_parent:
         update_rows(services.entry_list())
 
+
 def on_create_new():
     child = create_NewEntryWindow(root)
     root.wait_window(child[0])
     if child[1].update_parent:
         update_rows(services.entry_list())
 
+
 def on_reset_req():
     to_reset = messagebox.askyesno("Reset data", "All data will be removed. Are you sure?")
-    if(to_reset):
+    if to_reset:
         security.reset_all()
         messagebox.showinfo("Reset data", "Data removed, please restart application")
         destroy_window()
+
 
 def on_search_btn():
     child = create_SearchEntryWidnow(root)
     root.wait_window(child[0])
     if child[0].update_parent:
         update_rows(child[0].search_result)
-        
-        
-        
-        
