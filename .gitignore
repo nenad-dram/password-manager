@@ -9,3 +9,9 @@ __pycache__/
 .idea
 
 data/
+
+build/
+
+dist/
+
+*.spec
