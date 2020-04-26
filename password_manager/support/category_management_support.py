@@ -5,21 +5,9 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 03, 2020 07:27:52 PM CET  platform: Windows NT
 
-from view.category_new import create_CategoryNewWindow
-from model import services
-from view.category_details import create_CategoryDetailsWindow
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import view.category_new as category_new
+import view.category_details as category_details
+import model.services as services
 
 
 def init(top, gui, *args, **kwargs):
@@ -40,7 +28,7 @@ def destroy_window():
 
 
 def on_btn_create_new():
-    child = create_CategoryNewWindow(root)
+    child = category_new.create_category_new_window(root)
     root.wait_window(child[0])
     update_rows()
 
@@ -70,11 +58,11 @@ def on_row_select(event):
 
 
 def on_btn_cat_info(row_id):
-    create_CategoryDetailsWindow(root, 'info', services.category_get_by_id(row_id))
+    category_details.create_category_details_window(root, 'info', services.category_get_by_id(row_id))
 
 
 def on_btn_cat_edit(row_id):
-    child = create_CategoryDetailsWindow(root, 'edit', services.category_get_by_id(row_id))
+    child = category_details.create_category_details_window(root, 'edit', services.category_get_by_id(row_id))
     root.wait_window(child[0])
     update_rows()
 

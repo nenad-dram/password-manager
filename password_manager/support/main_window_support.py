@@ -5,24 +5,16 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 03, 2020 09:01:13 AM CET  platform: Windows NT
 
-from view import category_management, default_email, change_master_password
-from view.entry_new import create_NewEntryWindow
-from model import services, security
-from view.entry_details import create_EntryDetailsWindow
+import view.category_management as category_management
+import view.default_email as default_email
+import view.change_master_password as change_master_password
+import view.entry_new as entry_new
+import model.services as services
+import model.security as security
+import view.entry_details as entry_details
+import view.entry_search as entry_search
+import tkinter as tk
 from tkinter import messagebox
-from view.entry_search import create_SearchEntryWidnow
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
 
 
 def init(top, gui, *args, **kwargs):
@@ -30,13 +22,13 @@ def init(top, gui, *args, **kwargs):
     w = gui
     top_level = top
     root = top
-    gui.sub_menu.entryconfig(0, command=lambda: category_management.create_CategManWindow(top))
+    gui.sub_menu.entryconfig(0, command=lambda: category_management.create_categ_man_window(top))
     gui.sub_menu.entryconfig(5, command=destroy_window)
     gui.btnNewEnt.configure(command=on_create_new)
     gui.btnSearch.configure(command=on_search_btn)
     gui.treeviewRows.bind('<<TreeviewSelect>>', on_row_select)
-    gui.sub_menu.entryconfig(1, command=lambda: default_email.create_DefaultEmailWindow(top))
-    gui.sub_menu.entryconfig(2, command=lambda: change_master_password.create_ChangeMasterPwdWindow(top))
+    gui.sub_menu.entryconfig(1, command=lambda: default_email.create_default_email_window(top))
+    gui.sub_menu.entryconfig(2, command=lambda: change_master_password.create_change_master_pwd_window(top))
     gui.sub_menu.entryconfig(3, command=on_reset_req)
     
     insert_rows(services.entry_list())
@@ -68,14 +60,14 @@ def on_row_select(event):
 
 
 def on_btn_info(row_id):
-    child = create_EntryDetailsWindow(root, services.entry_get_by_id(row_id))
+    child = entry_details.create_entry_details_window(root, services.entry_get_by_id(row_id))
     root.wait_window(child[0])
     if child[1].update_parent:
         update_rows(services.entry_list())
 
 
 def on_create_new():
-    child = create_NewEntryWindow(root)
+    child = entry_new.create_new_entry_window(root)
     root.wait_window(child[0])
     if child[1].update_parent:
         update_rows(services.entry_list())
@@ -90,7 +82,7 @@ def on_reset_req():
 
 
 def on_search_btn():
-    child = create_SearchEntryWidnow(root)
+    child = entry_search.create_search_entry_window(root)
     root.wait_window(child[0])
     if child[0].update_parent:
         update_rows(child[0].search_result)

@@ -5,8 +5,7 @@ Created on Feb 27, 2020
 '''
 from datetime import datetime
 import pyperclip
-
-from pathlib import Path
+import pathlib
 import os
 import sys
 
@@ -20,7 +19,7 @@ def copy_to_clipboard(text):
 
 
 def file_exists_and_not_empty(file_name):
-    return Path(file_name).is_file() and os.stat(file_name).st_size != 0
+    return pathlib.Path(file_name).is_file() and os.stat(file_name).st_size != 0
 
 
 def get_root_path():

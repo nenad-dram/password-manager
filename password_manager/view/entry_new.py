@@ -5,46 +5,26 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 06, 2020 11:22:03 AM CET  platform: Windows NT
 
-from tkinter import StringVar, OptionMenu
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import entry_new_support
-from view import window_util
+import tkinter as tk
+import support.entry_new_support as entry_new_support
+import view.window_util as window_util
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = NewEntryWindow (root)
-    entry_new_support.init(root, top)
-    root.mainloop()
-
-w = None
-def create_NewEntryWindow(root, *args, **kwargs):
+def create_new_entry_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = NewEntryWindow (w)
+    w = tk.Toplevel(root)
+    top = NewEntryWindow(w)
     entry_new_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_NewEntryWidnow():
+
+def destroy_new_entry_window():
     global w
     w.destroy()
     w = None
+
 
 class NewEntryWindow:
     def __init__(self, top=None):
@@ -95,9 +75,9 @@ class NewEntryWindow:
         self.lblType.configure(highlightcolor="black")
         self.lblType.configure(text='''Type:''')
         
-        self.selType=StringVar()
+        self.selType = tk.StringVar()
         self.selType.set("Please select")
-        self.typeSelMenu = OptionMenu(self.frameBody, self.selType, None)
+        self.typeSelMenu = tk.OptionMenu(self.frameBody, self.selType, None)
         self.typeSelMenu.place(relx=0.3, rely=0.055, height=21, relwidth=0.596)
         self.typeSelMenu.configure(background="#d9d9d9")
         self.typeSelMenu.configure(highlightbackground="#d3d3d3")
@@ -117,10 +97,10 @@ class NewEntryWindow:
         self.lblCateg.configure(highlightcolor="black")
         self.lblCateg.configure(text='''Category:''')
         
-        self.selCat=StringVar()
+        self.selCat = tk.StringVar()
         self.selCat.set("Please select")
-        self.catSelMenu = OptionMenu(self.frameBody, self.selCat, None)
-        self.catSelMenu.place(relx=0.3, rely=0.127,height=21, relwidth=0.596)
+        self.catSelMenu = tk.OptionMenu(self.frameBody, self.selCat, None)
+        self.catSelMenu.place(relx=0.3, rely=0.127, height=21, relwidth=0.596)
         self.catSelMenu.configure(background="#d9d9d9")
         self.catSelMenu.configure(highlightbackground="#d3d3d3")
         self.catSelMenu.configure(foreground="#000000")
@@ -188,7 +168,7 @@ class NewEntryWindow:
         self.lblDesc.configure(text='''Description:''')
 
         self.entryName = tk.Entry(self.frameBody)
-        self.entryName.place(relx=0.3, rely=0.2,height=21, relwidth=0.596)
+        self.entryName.place(relx=0.3, rely=0.2, height=21, relwidth=0.596)
         self.entryName.configure(background="white")
         self.entryName.configure(disabledforeground="#a3a3a3")
         self.entryName.configure(font="TkFixedFont")
@@ -200,7 +180,7 @@ class NewEntryWindow:
         self.entryName.configure(selectforeground="black")
 
         self.entryValue = tk.Entry(self.frameBody)
-        self.entryValue.place(relx=0.3, rely=0.273,height=21, relwidth=0.596)
+        self.entryValue.place(relx=0.3, rely=0.273, height=21, relwidth=0.596)
         self.entryValue.configure(background="white")
         self.entryValue.configure(disabledforeground="#a3a3a3")
         self.entryValue.configure(font="TkFixedFont")
@@ -213,8 +193,7 @@ class NewEntryWindow:
         self.entryValue.configure(show="*")
 
         self.entryUsername = tk.Entry(self.frameBody)
-        self.entryUsername.place(relx=0.304, rely=0.351, height=21
-                , relwidth=0.596)
+        self.entryUsername.place(relx=0.304, rely=0.351, height=21, relwidth=0.596)
         self.entryUsername.configure(background="white")
         self.entryUsername.configure(disabledforeground="#a3a3a3")
         self.entryUsername.configure(font="TkFixedFont")
@@ -227,7 +206,7 @@ class NewEntryWindow:
         self.entryUsername.configure(state="disabled")
 
         self.entryEmail = tk.Entry(self.frameBody)
-        self.entryEmail.place(relx=0.304, rely=0.491,height=21, relwidth=0.596)
+        self.entryEmail.place(relx=0.304, rely=0.491, height=21, relwidth=0.596)
         self.entryEmail.configure(background="white")
         self.entryEmail.configure(disabledforeground="#a3a3a3")
         self.entryEmail.configure(font="TkFixedFont")
@@ -240,8 +219,7 @@ class NewEntryWindow:
         self.entryEmail.configure(state="disabled")
 
         self.textDesc = tk.Text(self.frameBody)
-        self.textDesc.place(relx=0.304, rely=0.564, relheight=0.189    
-                    , relwidth=0.596)
+        self.textDesc.place(relx=0.304, rely=0.564, relheight=0.189, relwidth=0.596)
         self.textDesc.configure(background="white")
         self.textDesc.configure(font="TkTextFont")
         self.textDesc.configure(foreground="black")
@@ -278,9 +256,8 @@ class NewEntryWindow:
         
         self.chDfEmVal = tk.IntVar()
         self.checkDefEmail = tk.Checkbutton(self.frameBody)
-        self.checkDefEmail.place(relx=0.3, rely=0.431, relheight=0.038
-                , relwidth=0.548)
-        self.checkDefEmail.configure(activebackground="#ececec")
+        self.checkDefEmail.place(relx=0.3, rely=0.431, relheight=0.038, relwidth=0.548)
+        self.checkDefEmail.configure(activebackground="#d9d9d9")
         self.checkDefEmail.configure(activeforeground="#000000")
         self.checkDefEmail.configure(anchor='w')
         self.checkDefEmail.configure(background="#d9d9d9")

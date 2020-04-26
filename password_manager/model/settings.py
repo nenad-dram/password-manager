@@ -4,7 +4,7 @@ Created on Feb 26, 2020
 @author: ndramica
 '''
 import configparser
-from model import util, services
+from . import util, services
 
 __APP_SETTINGS = 'APP SETTINGS'
 __DATA_CONFIG_FILE = util.get_root_path() + '/data/data.ini'

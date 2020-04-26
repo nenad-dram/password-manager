@@ -5,20 +5,11 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 11, 2020 09:40:19 PM CET  platform: Windows NT
 
-from model.data_model import EntryType
-from model import services, settings, util
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import model.data_model as data_model
+import model.services as services
+import model.settings as settings
+import model.util as util
+import tkinter as tk
 
 
 def init(top, gui, *args, **kwargs):
@@ -30,7 +21,7 @@ def init(top, gui, *args, **kwargs):
     gui.btnClose.configure(command=destroy_window)
     type_menu = gui.typeSelMenu["menu"]
     type_menu.delete(0, "end")
-    for val in [e.value for e in EntryType]:
+    for val in [e.value for e in data_model.EntryType]:
         type_menu.add_command(label=val, command=lambda value=val: gui.selType.set(value))
         type_menu.configure(activebackground="#a7a7a7", background="#d9d9d9")
         type_menu.configure(foreground="#000000", activeforeground="#000000")
@@ -172,7 +163,7 @@ def on_check_email():
 
 
 def conf_copy_btns(entry):
-    w.btnCopyVal.configure(command = lambda: util.copy_to_clipboard(w.entryValue.get()))
+    w.btnCopyVal.configure(command=lambda: util.copy_to_clipboard(w.entryValue.get()))
 
     if entry.entry_type == "account" and len(entry.email) > 0:
         w.btnCopyEmail.configure(state="normal")

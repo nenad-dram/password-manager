@@ -5,45 +5,26 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 05, 2020 10:33:21 AM CET  platform: Windows NT
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import category_details_support
-from view import window_util
+import tkinter as tk
+import support.category_details_support as category_details_support
+import view.window_util as window_util
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = CategoryDetailsWindow (root)
-    category_details_support.init(root, top)
-    root.mainloop()
-
-    w = None
-
-def create_CategoryDetailsWindow(root, *args, **kwargs):
+def create_category_details_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = CategoryDetailsWindow (w)
+    w = tk.Toplevel(root)
+    top = CategoryDetailsWindow(w)
     category_details_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_CategoryNewWindow():
+
+def destroy_category_new_window():
     global w
     w.destroy()
     w = None
+
 
 class CategoryDetailsWindow:
     def __init__(self, top=None):
@@ -84,7 +65,7 @@ class CategoryDetailsWindow:
         self.frameBody.configure(highlightcolor="black")
 
         self.entName = tk.Entry(self.frameBody)
-        self.entName.place(relx=0.338, rely=0.184,height=20, relwidth=0.577)
+        self.entName.place(relx=0.338, rely=0.184, height=20, relwidth=0.577)
         self.entName.configure(background="white")
         self.entName.configure(disabledforeground="#a3a3a3")
         self.entName.configure(font="TkFixedFont")
@@ -118,8 +99,7 @@ class CategoryDetailsWindow:
         self.lblDescription.configure(text='''Description:''')
 
         self.txtDescripton = tk.Text(self.frameBody)
-        self.txtDescripton.place(relx=0.338, rely=0.276, relheight=0.423
-                , relwidth=0.577)
+        self.txtDescripton.place(relx=0.338, rely=0.276, relheight=0.423, relwidth=0.577)
         self.txtDescripton.configure(background="white")
         self.txtDescripton.configure(font="TkFixedFont")
         self.txtDescripton.configure(foreground="black")
@@ -150,7 +130,7 @@ class CategoryDetailsWindow:
         self.lblId.configure(text='''ID:''')
 
         self.entId = tk.Entry(self.frameBody)
-        self.entId.place(relx=0.338, rely=0.092,height=20, relwidth=0.577)
+        self.entId.place(relx=0.338, rely=0.092, height=20, relwidth=0.577)
         self.entId.configure(background="white")
         self.entId.configure(disabledforeground="#a3a3a3")
         self.entId.configure(font="TkFixedFont")
@@ -162,7 +142,7 @@ class CategoryDetailsWindow:
         self.entId.configure(selectforeground="black")
 
         self.entModDate = tk.Entry(self.frameBody)
-        self.entModDate.place(relx=0.338, rely=0.749,height=20, relwidth=0.577)
+        self.entModDate.place(relx=0.338, rely=0.749, height=20, relwidth=0.577)
         self.entModDate.configure(background="white")
         self.entModDate.configure(disabledforeground="#a3a3a3")
         self.entModDate.configure(font="TkFixedFont")

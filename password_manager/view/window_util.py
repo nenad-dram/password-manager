@@ -1,8 +1,8 @@
 import platform
 import os
-from model import util
-from tkinter import messagebox
+import model.util as util
 import logging
+from tkinter import messagebox
 
 ICON_DIR = 'resources'
 ICON_NAME = 'padlock'

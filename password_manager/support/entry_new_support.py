@@ -5,20 +5,10 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 06, 2020 11:22:33 AM CET  platform: Windows NT
 
-from model.data_model import EntryType
-from model import services, settings
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import model.data_model as data_model
+import model.services as services
+import model.settings as settings
+import tkinter as tk
 
 
 def init(top, gui, *args, **kwargs):
@@ -27,11 +17,11 @@ def init(top, gui, *args, **kwargs):
     top_level = top
     root = top
     gui.update_parent = False
-    gui.btnCancel.configure(command = destroy_window)
-    gui.btnCreate.configure(command = on_btn_create)
+    gui.btnCancel.configure(command=destroy_window)
+    gui.btnCreate.configure(command=on_btn_create)
     type_menu=gui.typeSelMenu["menu"]
     type_menu.delete(0, "end")
-    for val in [e.value for e in EntryType]:
+    for val in [e.value for e in data_model.EntryType]:
         type_menu.add_command(label=val, command=lambda value=val: gui.selType.set(value))
         type_menu.configure(activebackground="#a7a7a7", background="#d9d9d9")
         type_menu.configure(foreground="#000000", activeforeground="#000000")

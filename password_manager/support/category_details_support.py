@@ -5,19 +5,8 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 05, 2020 10:33:27 AM CET  platform: Windows NT
 
-from model import services
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import model.services as services
+import tkinter as tk
 
 
 def init(top, gui, *args, **kwargs):

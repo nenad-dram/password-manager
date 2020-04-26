@@ -5,29 +5,17 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 23, 2020 09:45:19 PM CET  platform: Windows NT
 
+import model.security as security
+import view.main_window as main_window
+import tkinter as tk
 from tkinter import messagebox
-from model import security
-from view import main_window
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
-    gui.btnLogin.configure(command = on_login_btn)
+    gui.btnLogin.configure(command=on_login_btn)
 
 
 def destroy_window():
@@ -46,4 +34,4 @@ def on_login_btn():
         if not security.master_pwd_valid(login_pwd):
             messagebox.showerror('Login', 'Incorrect password!')
             return
-        main_window.create_MainWindow(root)
+        main_window.create_main_window(root)

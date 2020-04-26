@@ -5,19 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 26, 2020 12:39:17 PM CET  platform: Windows NT
 
-from model import settings
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import model.settings as settings
 
 
 def init(top, gui, *args, **kwargs):

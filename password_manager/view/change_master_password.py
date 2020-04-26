@@ -5,44 +5,26 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 27, 2020 01:42:36 PM CET  platform: Windows NT
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import change_master_password_support
-from view import window_util
+import tkinter as tk
+import support.change_master_password_support as change_master_password_support
+import view.window_util as window_util
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = ChangeMasterPwdWindow (root)
-    change_master_password_support.init(root, top)
-    root.mainloop()
-
-w = None
-def create_ChangeMasterPwdWindow(root, *args, **kwargs):
+def create_change_master_pwd_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = ChangeMasterPwdWindow (w)
+    w = tk.Toplevel(root)
+    top = ChangeMasterPwdWindow(w)
     change_master_password_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_ChangeMasterPwdWindow():
+
+def destroy_change_master_pwd_window():
     global w
     w.destroy()
     w = None
+
 
 class ChangeMasterPwdWindow:
     def __init__(self, top=None):
@@ -79,7 +61,7 @@ class ChangeMasterPwdWindow:
         self.lblCurPwd.configure(text='''Current password:''')
 
         self.entCurPwd = tk.Entry(top)
-        self.entCurPwd.place(relx=0.31, rely=0.095,height=21, relwidth=0.65)
+        self.entCurPwd.place(relx=0.31, rely=0.095, height=21, relwidth=0.65)
         self.entCurPwd.configure(background="white")
         self.entCurPwd.configure(disabledforeground="#a3a3a3")
         self.entCurPwd.configure(font="TkFixedFont")
@@ -125,7 +107,7 @@ class ChangeMasterPwdWindow:
         self.lblRptPwd.configure(text='''Repeat password:''')
 
         self.entRptPwd = tk.Entry(top)
-        self.entRptPwd.place(relx=0.31, rely=0.474,height=21, relwidth=0.65)
+        self.entRptPwd.place(relx=0.31, rely=0.474, height=21, relwidth=0.65)
         self.entRptPwd.configure(background="white")
         self.entRptPwd.configure(disabledforeground="#a3a3a3")
         self.entRptPwd.configure(font="TkFixedFont")

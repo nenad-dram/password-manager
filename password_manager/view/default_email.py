@@ -5,44 +5,26 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 26, 2020 12:39:14 PM CET  platform: Windows NT
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import default_email_support
-from view import window_util
+import tkinter as tk
+import support.default_email_support as default_email_support
+import view.window_util as window_util
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = DefaultEmail (root)
-    default_email_support.init(root, top)
-    root.mainloop()
-
-w = None
-def create_DefaultEmailWindow(root, *args, **kwargs):
+def create_default_email_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = DefaultEmail (w)
+    w = tk.Toplevel(root)
+    top = DefaultEmail(w)
     default_email_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_DefaultEmail():
+
+def destroy_default_email():
     global w
     w.destroy()
     w = None
+
 
 class DefaultEmail:
     def __init__(self, top=None):
@@ -70,7 +52,7 @@ class DefaultEmail:
         top.iconbitmap(window_util.get_icon_path())
 
         self.entryEmail = tk.Entry(top)
-        self.entryEmail.place(relx=0.253, rely=0.179,height=21, relwidth=0.694)
+        self.entryEmail.place(relx=0.253, rely=0.179, height=21, relwidth=0.694)
         self.entryEmail.configure(background="white")
         self.entryEmail.configure(disabledforeground="#a3a3a3")
         self.entryEmail.configure(font="TkFixedFont")

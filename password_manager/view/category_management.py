@@ -6,48 +6,29 @@
 #    Feb 04, 2020 07:07:23 PM CET  platform: Windows NT
 
 import sys
+import view.window_util as window_util
+import tkinter as tk
+import support.category_management_support as category_management_support
+import platform
+from tkinter import ttk
 
-from view import window_util
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import category_management_support
-
-
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = CategManWindow (root)
-    category_management_support.init(root, top)
-    root.mainloop()
-
-    w = None
-def create_CategManWindow(root, *args, **kwargs):
+def create_categ_man_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = CategManWindow (w)
+    w = tk.Toplevel(root)
+    top = CategManWindow(w)
     category_management_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_categManWindow():
+
+def destroy_categ_man_window():
     global w
     w.destroy()
     w = None
 
-class CategManWindow():
+
+class CategManWindow:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -59,11 +40,11 @@ class CategManWindow():
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
+        self.style.configure('.', background=_bgcolor)
+        self.style.configure('.', foreground=_fgcolor)
+        self.style.configure('.', font="TkDefaultFont")
+        self.style.map('.', background=
+            [('selected', _compcolor), ('active', _ana2color)])
 
         width = 562
         height = 423
@@ -92,8 +73,7 @@ class CategManWindow():
         self.header.configure(highlightcolor="black")
 
         self.frameCatMenu = tk.Frame(self.header)
-        self.frameCatMenu.place(relx=0.0, rely=0.0, relheight=1.0
-                , relwidth=0.347)
+        self.frameCatMenu.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=0.15)
         self.frameCatMenu.configure(relief='groove')
         self.frameCatMenu.configure(borderwidth="2")
         self.frameCatMenu.configure(relief="groove")
@@ -102,7 +82,7 @@ class CategManWindow():
         self.frameCatMenu.configure(highlightcolor="black")
 
         self.btnNewCat = tk.Button(self.frameCatMenu)
-        self.btnNewCat.place(relx=0.103, rely=0.156, height=24, width=55)
+        self.btnNewCat.place(relx=0.12, rely=0.156, height=24, width=55)
         self.btnNewCat.configure(activebackground="#ececec")
         self.btnNewCat.configure(activeforeground="#000000")
         self.btnNewCat.configure(background="#d9d9d9")
@@ -113,22 +93,8 @@ class CategManWindow():
         self.btnNewCat.configure(pady="0")
         self.btnNewCat.configure(text='''New''')
 
-        self.btnSearch = tk.Button(self.frameCatMenu)
-        self.btnSearch.place(relx=0.513, rely=0.156, height=24, width=55)
-        self.btnSearch.configure(activebackground="#ececec")
-        self.btnSearch.configure(activeforeground="#000000")
-        self.btnSearch.configure(background="#d9d9d9")
-        self.btnSearch.configure(disabledforeground="#a3a3a3")
-        self.btnSearch.configure(foreground="#000000")
-        self.btnSearch.configure(highlightbackground="#d9d9d9")
-        self.btnSearch.configure(highlightcolor="black")
-        self.btnSearch.configure(pady="0")
-        self.btnSearch.configure(text='''Search''')
-        self.btnSearch.configure(state="disabled")
-
         self.frameCatActions = tk.Frame(self.header)
-        self.frameCatActions.place(relx=0.534, rely=0.0, relheight=1.0
-                , relwidth=0.472)
+        self.frameCatActions.place(relx=0.534, rely=0.0, relheight=1.0, relwidth=0.472)
         self.frameCatActions.configure(relief='groove')
         self.frameCatActions.configure(borderwidth="2")
         self.frameCatActions.configure(relief="groove")
@@ -176,8 +142,7 @@ class CategManWindow():
         self.btnCatDelete.configure(state="disabled")
 
         self.frameCatBody = tk.Frame(top)
-        self.frameCatBody.place(relx=0.0, rely=0.095, relheight=0.851
-                , relwidth=1.0)
+        self.frameCatBody.place(relx=0.0, rely=0.095, relheight=0.851, relwidth=1.0)
         self.frameCatBody.configure(relief='groove')
         self.frameCatBody.configure(borderwidth="2")
         self.frameCatBody.configure(relief="groove")
@@ -187,8 +152,7 @@ class CategManWindow():
 
         self.style.configure('Treeview',  font="TkDefaultFont")
         self.CategoryTreeView = ScrolledTreeView(self.frameCatBody)
-        self.CategoryTreeView.place(relx=0.0, rely=0.0, relheight=1.0
-                , relwidth=1)
+        self.CategoryTreeView.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1)
         self.CategoryTreeView.configure(columns="Col1 Col2")
         # build_treeview_support starting.
         self.CategoryTreeView.heading("#0",text="ID")
@@ -244,12 +208,7 @@ class AutoScroll(object):
         master.grid_rowconfigure(0, weight=1)
 
         # Copy geometry methods of master  (taken from ScrolledText.py)
-        if py3:
-            methods = tk.Pack.__dict__.keys() | tk.Grid.__dict__.keys() \
-                  | tk.Place.__dict__.keys()
-        else:
-            methods = tk.Pack.__dict__.keys() + tk.Grid.__dict__.keys() \
-                  + tk.Place.__dict__.keys()
+        methods = tk.Pack.__dict__.keys() | tk.Grid.__dict__.keys() | tk.Place.__dict__.keys()
 
         for meth in methods:
             if meth[0] != '_' and meth not in ('config', 'configure'):
@@ -270,6 +229,7 @@ class AutoScroll(object):
     def __str__(self):
         return str(self.master)
 
+
 def _create_container(func):
     '''Creates a ttk Frame with a given master, and use this new frame to
     place the scrollbars and the widget.'''
@@ -280,6 +240,7 @@ def _create_container(func):
         return func(cls, container, **kw)
     return wrapped
 
+
 class ScrolledTreeView(AutoScroll, ttk.Treeview):
     '''A standard ttk Treeview widget with scrollbars that will
     automatically show/hide as needed.'''
@@ -288,7 +249,7 @@ class ScrolledTreeView(AutoScroll, ttk.Treeview):
         ttk.Treeview.__init__(self, master, **kw)
         AutoScroll.__init__(self, master)
 
-import platform
+
 def _bound_to_mousewheel(event, widget):
     child = widget.winfo_children()[0]
     if platform.system() == 'Windows' or platform.system() == 'Darwin':
@@ -300,6 +261,7 @@ def _bound_to_mousewheel(event, widget):
         child.bind_all('<Shift-Button-4>', lambda e: _on_shiftmouse(e, child))
         child.bind_all('<Shift-Button-5>', lambda e: _on_shiftmouse(e, child))
 
+
 def _unbound_to_mousewheel(event, widget):
     if platform.system() == 'Windows' or platform.system() == 'Darwin':
         widget.unbind_all('<MouseWheel>')
@@ -310,16 +272,18 @@ def _unbound_to_mousewheel(event, widget):
         widget.unbind_all('<Shift-Button-4>')
         widget.unbind_all('<Shift-Button-5>')
 
+
 def _on_mousewheel(event, widget):
     if platform.system() == 'Windows':
-        widget.yview_scroll(-1*int(event.delta/120),'units')
+        widget.yview_scroll(-1*int(event.delta/120), 'units')
     elif platform.system() == 'Darwin':
-        widget.yview_scroll(-1*int(event.delta),'units')
+        widget.yview_scroll(-1*int(event.delta), 'units')
     else:
         if event.num == 4:
             widget.yview_scroll(-1, 'units')
         elif event.num == 5:
             widget.yview_scroll(1, 'units')
+
 
 def _on_shiftmouse(event, widget):
     if platform.system() == 'Windows':

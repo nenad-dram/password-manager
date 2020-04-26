@@ -5,21 +5,11 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 23, 2020 05:53:07 PM CET  platform: Windows NT
 
+import model.security as security
+import model.settings as settings
+import view.login as login
+import tkinter as tk
 from tkinter import messagebox
-from model import security, settings
-from view.login import create_loginWindow
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
 
 
 def init(top, gui, *args, **kwargs):
@@ -27,7 +17,7 @@ def init(top, gui, *args, **kwargs):
     w = gui
     top_level = top
     root = top
-    gui.btnSubmit.configure(command = on_register_btn)
+    gui.btnSubmit.configure(command=on_register_btn)
 
 
 def destroy_window():
@@ -53,4 +43,4 @@ def on_register_btn():
     messagebox.showinfo('Registration', 'Registration successful, please login!')
 
     destroy_window()
-    create_loginWindow(tk.Tk())
+    login.create_login_window(tk.Tk())

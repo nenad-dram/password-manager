@@ -5,44 +5,26 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 04, 2020 10:07:47 AM CET  platform: Windows NT
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import category_new_support
-from view import window_util
+import tkinter as tk
+import support.category_new_support as category_new_support
+import view.window_util as window_util
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = CategoryNewWindow (root)
-    category_new_support.init(root, top)
-    root.mainloop()
-
-w = None
-def create_CategoryNewWindow(root, *args, **kwargs):
+def create_category_new_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = CategoryNewWindow (w)
+    w = tk.Toplevel(root)
+    top = CategoryNewWindow(w)
     category_new_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_CategoryNewWindow():
+
+def destroy_category_new_window():
     global w
     w.destroy()
     w = None
+
 
 class CategoryNewWindow:
     def __init__(self, top=None):
@@ -100,8 +82,7 @@ class CategoryNewWindow:
         self.lblDescription.configure(text='''Description:''')
 
         self.txtDescripton = tk.Text(self.frameBody)
-        self.txtDescripton.place(relx=0.31, rely=0.223, relheight=0.514
-                , relwidth=0.577)
+        self.txtDescripton.place(relx=0.31, rely=0.223, relheight=0.514, relwidth=0.577)
         self.txtDescripton.configure(background="white")
         self.txtDescripton.configure(font="TkFixedFont")
         self.txtDescripton.configure(foreground="black")

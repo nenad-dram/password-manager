@@ -5,20 +5,8 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 29, 2020 02:15:11 PM CET  platform: Linux
 
-from model.data_model import EntryType
-from model import services
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import model.data_model as data_model
+import model.services as services
 
 
 def init(top, gui, *args, **kwargs):
@@ -33,7 +21,7 @@ def init(top, gui, *args, **kwargs):
     
     type_menu=gui.typeSelMenu["menu"]
     type_menu.delete(0, "end")
-    for val in [e.value for e in EntryType]:
+    for val in [e.value for e in data_model.EntryType]:
         type_menu.add_command(label=val, command= lambda value=val: gui.selType.set(value))
         type_menu.configure(activebackground="#a7a7a7", background="#d9d9d9")
         type_menu.configure(foreground="#000000", activeforeground="#000000")

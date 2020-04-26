@@ -5,47 +5,38 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 29, 2020 02:16:38 PM CET  platform: Linux
 
-from tkinter import StringVar, OptionMenu
+import tkinter as tk
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
+import support.entry_search_support as entry_search_support
+import view.window_util as window_util
 
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import entry_search_support
-from view import window_util
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = tk.Tk()
-    top = SearchEntryWidnow (root)
+    top = SearchEntryWidnow(root)
     entry_search_support.init(root, top)
     root.mainloop()
+    w = None
 
-w = None
-def create_SearchEntryWidnow(rt, *args, **kwargs):
+
+def create_search_entry_window(rt, *args, **kwargs):
     '''Starting point when module is imported by another module.
        Correct form of call: 'create_SearchEntryWidnow(root, *args, **kwargs)' .'''
     global w, w_win, root
-    #rt = root
     root = rt
-    w = tk.Toplevel (root)
-    top = SearchEntryWidnow (w)
+    w = tk.Toplevel(root)
+    top = SearchEntryWidnow(w)
     entry_search_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_SearchEntryWidnow():
+
+def destroy_search_entry_window():
     global w
     w.destroy()
     w = None
+
 
 class SearchEntryWidnow:
     def __init__(self, top=None):
@@ -91,10 +82,10 @@ class SearchEntryWidnow:
         self.lblType.configure(highlightcolor="black")
         self.lblType.configure(text='''Type:''')
 
-        self.selType=StringVar()
+        self.selType = tk.StringVar()
         self.selType.set("Please select")
-        self.typeSelMenu = OptionMenu(self.frameBody, self.selType, None)
-        self.typeSelMenu.place(relx=0.235, rely=0.135,height=21, relwidth=0.715)
+        self.typeSelMenu = tk.OptionMenu(self.frameBody, self.selType, None)
+        self.typeSelMenu.place(relx=0.235, rely=0.135, height=21, relwidth=0.715)
         self.typeSelMenu.configure(background="#d9d9d9")
         self.typeSelMenu.configure(highlightbackground="#d3d3d3")
         self.typeSelMenu.configure(foreground="#000000")
@@ -113,9 +104,9 @@ class SearchEntryWidnow:
         self.lblCateg.configure(highlightcolor="black")
         self.lblCateg.configure(text='''Category:''')
         
-        self.selCat=StringVar()
+        self.selCat = tk.StringVar()
         self.selCat.set("Please select")
-        self.catSelMenu = OptionMenu(self.frameBody, self.selCat, None)
+        self.catSelMenu = tk.OptionMenu(self.frameBody, self.selCat, None)
         self.catSelMenu.place(relx=0.235, rely=0.31,height=21, relwidth=0.715)
         self.catSelMenu.configure(background="#d9d9d9")
         self.catSelMenu.configure(highlightbackground="#d3d3d3")
@@ -136,7 +127,7 @@ class SearchEntryWidnow:
         self.lblName.configure(text='''Name:''')
 
         self.entryName = tk.Entry(self.frameBody)
-        self.entryName.place(relx=0.235, rely=0.5,height=21, relwidth=0.715)
+        self.entryName.place(relx=0.235, rely=0.5, height=21, relwidth=0.715)
         self.entryName.configure(background="white")
         self.entryName.configure(disabledforeground="#a3a3a3")
         self.entryName.configure(font="TkFixedFont")

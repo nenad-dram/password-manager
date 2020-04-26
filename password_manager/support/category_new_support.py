@@ -5,19 +5,8 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 04, 2020 10:07:53 AM CET  platform: Windows NT
 
-from model import services
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
+import model.services as services
+import tkinter as tk
 
 
 def init(top, gui, *args, **kwargs):
@@ -25,8 +14,8 @@ def init(top, gui, *args, **kwargs):
     w = gui
     top_level = top
     root = top
-    gui.btnCreate.configure(command = on_create_btn)
-    gui.btnCancel.configure(command = destroy_window)
+    gui.btnCreate.configure(command=on_create_btn)
+    gui.btnCancel.configure(command=destroy_window)
 
 
 def destroy_window():

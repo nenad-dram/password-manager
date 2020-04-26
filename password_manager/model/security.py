@@ -5,7 +5,8 @@ Created on Jan 22, 2020
 '''
 import hashlib
 import re
-from model import settings, services
+from . import settings
+from . import services
 from cryptography.fernet import Fernet
 
 __SHA265_REGEX = '^[A-Fa-f0-9]{64}$'

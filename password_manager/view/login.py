@@ -5,42 +5,24 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 24, 2020 03:26:07 PM CET  platform: Windows NT
 
-from support import login_support
+import support.login_support as login_support
+import tkinter as tk
+import view.window_util as window_util
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
 
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from view import window_util
-
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = LoginWindow (root)
-    login_support.init(root, top)
-    root.mainloop()
-    w = None
-
-def create_loginWindow(root, *args, **kwargs):
+def create_login_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
     top = LoginWindow (root)
     login_support.init(root, top, *args, **kwargs)
 
-def destroy_loginWindow():
+
+def destroy_login_window():
     global w
     w.destroy()
     w = None
+
 
 class LoginWindow():
     def __init__(self, top=None):
@@ -91,8 +73,7 @@ class LoginWindow():
         self.lblInsertPwd.configure(text='''Please enter master password''')
 
         self.entMasterPwd = tk.Entry(top)
-        self.entMasterPwd.place(relx=0.202, rely=0.511, height=23
-                , relwidth=0.564)
+        self.entMasterPwd.place(relx=0.202, rely=0.511, height=23, relwidth=0.564)
         self.entMasterPwd.configure(background="white")
         self.entMasterPwd.configure(disabledforeground="#a3a3a3")
         self.entMasterPwd.configure(font="-family {Courier New} -size 9")
@@ -117,6 +98,3 @@ class LoginWindow():
         self.btnLogin.configure(highlightcolor="black")
         self.btnLogin.configure(pady="0")
         self.btnLogin.configure(text='''Login''')
-    
-
-

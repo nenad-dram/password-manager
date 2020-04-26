@@ -5,42 +5,24 @@
 #  in conjunction with Tcl version 8.6
 #    Jan 23, 2020 05:51:23 PM CET  platform: Windows NT
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
+import tkinter as tk
+import support.registration_support as registration_support
+import view.window_util as window_util
 
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import registration_support
-from view import window_util
-
-
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = RegistrationWindow (root)
-    registration_support.init(root, top)
-    root.mainloop()
-    w = None
     
-def create_registrationWindow(root, *args, **kwargs):
+def create_registration_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
     top = RegistrationWindow (root)
     registration_support.init(root, top, *args, **kwargs)
 
-def destroy_registrationWindow():
+
+def destroy_registration_window():
     global w
     w.destroy()
     w = None
+
 
 class RegistrationWindow:
     def __init__(self, top=None):

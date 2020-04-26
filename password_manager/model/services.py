@@ -4,8 +4,8 @@ Created on Jan 20, 2020
 @author: nenad
 '''
 
-from model.data_model import Category, Entry
-from model import settings, util, security
+from . import data_model
+from . import settings, util, security
 import jsonpickle
 import os
 
@@ -24,7 +24,7 @@ def category_add(name, description):
     
     cat_id = settings.get_next_category_id()
     cat_id = int(cat_id) if cat_id else 1  
-    category = Category(cat_id, name, description, util.get_current_date())
+    category = data_model.Category(cat_id, name, description, util.get_current_date())
     
     category_list_cache.append(category)
 
@@ -80,7 +80,7 @@ def entry_add(name, value, entry_type, category, description, username, email):
     category_id = category_get_by_name(category).entity_id
     ent_id = settings.get_next_category_id()
     ent_id = int(ent_id) if ent_id else 1 
-    entry = Entry(ent_id, name, value, entry_type, category_id, description, util.get_current_date(), username, email)
+    entry = data_model.Entry(ent_id, name, value, entry_type, category_id, description, util.get_current_date(), username, email)
     
     entries = entry_list()
     entries.append(entry)

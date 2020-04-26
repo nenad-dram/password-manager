@@ -3,25 +3,21 @@ Created on Jan 20, 2020
 
 @author: nenad
 '''
+import tkinter as tk
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-from model.security import master_pwd_exists
-from view.login import create_loginWindow
-from view.registration import create_registrationWindow
-from view import window_util
+import model.security as security
+import view.login as login
+import view.registration as registration
+import view.window_util as window_util
 import sys
 
 root = tk.Tk()
 sys.excepthook = window_util.handle_app_exception
 
-if master_pwd_exists():
-    create_loginWindow(root)
+if security.master_pwd_exists():
+    login.create_login_window(root)
 else:
-    create_registrationWindow(root)
+    registration.create_registration_window(root)
 
 root.iconbitmap(window_util.get_icon_path())
 root.mainloop()

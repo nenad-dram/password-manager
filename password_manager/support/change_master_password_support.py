@@ -5,20 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Feb 27, 2020 01:42:39 PM CET  platform: Windows NT
 
-from model import security
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
+import model.security as security
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root

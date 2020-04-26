@@ -6,43 +6,25 @@
 #    Feb 03, 2020 09:01:07 AM CET  platform: Windows NT
 
 import sys
+import view.window_util as window_util
+import tkinter as tk
+import support.main_window_support as main_window_support
+import platform
+from tkinter import ttk
 
-from view import window_util
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import main_window_support
-
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = MainWindow (root)
-    main_window_support.init(root, top)
-    root.mainloop()
-
-    w = None
-def create_MainWindow(root, *args, **kwargs):
+def create_main_window(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
     top = MainWindow (root)
     main_window_support.init(root, top, *args, **kwargs)
 
-def destroy_MainWindow():
+
+def destroy_main_window():
     global w
     w.destroy()
     w = None
+
 
 class MainWindow():
     def __init__(self, top=None):
@@ -56,11 +38,10 @@ class MainWindow():
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
+        self.style.configure('.', background=_bgcolor)
+        self.style.configure('.', foreground=_fgcolor)
+        self.style.configure('.', font="TkDefaultFont")
+        self.style.map('.', background=[('selected', _compcolor), ('active', _ana2color)])
         
         width = 700
         height = 527
@@ -89,8 +70,7 @@ class MainWindow():
         self.header.configure(highlightcolor="black")
 
         self.frameActBtn = ttk.Frame(self.header)
-        self.frameActBtn.place(relx=0.81, rely=0.0, relheight=1.0
-                , relwidth=0.3)
+        self.frameActBtn.place(relx=0.81, rely=0.0, relheight=1.0, relwidth=0.3)
         self.frameActBtn.configure(relief='groove')
         self.frameActBtn.configure(borderwidth="2")
         self.frameActBtn.configure(relief="groove")
@@ -109,8 +89,7 @@ class MainWindow():
         self.btnInfo.configure(state="disabled")
 
         self.frameMenuBtns = tk.Frame(self.header)
-        self.frameMenuBtns.place(relx=0.0, rely=0.0, relheight=1.0
-                , relwidth=0.26)
+        self.frameMenuBtns.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=0.26)
         self.frameMenuBtns.configure(relief='groove')
         self.frameMenuBtns.configure(borderwidth="2")
         self.frameMenuBtns.configure(relief="groove")
@@ -151,40 +130,40 @@ class MainWindow():
 
         self.style.configure('Treeview',  font="TkDefaultFont")
         self.treeviewRows = ScrolledTreeView(self.Frame)
-        self.treeviewRows.place(relx=0.0, rely=0.0, relheight=1.0
-                , relwidth=1.0)
+        self.treeviewRows.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
         self.treeviewRows.configure(columns="name category type")
         # build_treeview_support starting.
-        self.treeviewRows.heading("#0",text="ID")
-        self.treeviewRows.heading("#0",anchor="center")
-        self.treeviewRows.column("#0",width="0")
-        self.treeviewRows.column("#0",minwidth="0")
-        self.treeviewRows.column("#0",stretch="0")
-        self.treeviewRows.column("#0",anchor="c")
-        self.treeviewRows.heading("name",text="Name")
-        self.treeviewRows.heading("name",anchor="center")
-        self.treeviewRows.column("name",width="150")
-        self.treeviewRows.column("name",minwidth="20")
-        self.treeviewRows.column("name",stretch="1")
-        self.treeviewRows.column("name",anchor="c")
-        self.treeviewRows.heading("category",text="Category")
-        self.treeviewRows.heading("category",anchor="center")
-        self.treeviewRows.column("category",width="150")
-        self.treeviewRows.column("category",minwidth="20")
-        self.treeviewRows.column("category",stretch="1")
-        self.treeviewRows.column("category",anchor="c")
-        self.treeviewRows.heading("type",text="Type")
-        self.treeviewRows.heading("type",anchor="center")
-        self.treeviewRows.column("type",width="150")
-        self.treeviewRows.column("type",minwidth="20")
-        self.treeviewRows.column("type",stretch="1")
-        self.treeviewRows.column("type",anchor="c")
+        self.treeviewRows.heading("#0", text="ID")
+        self.treeviewRows.heading("#0", anchor="center")
+        self.treeviewRows.column("#0", width="0")
+        self.treeviewRows.column("#0", minwidth="0")
+        self.treeviewRows.column("#0", stretch="0")
+        self.treeviewRows.column("#0", anchor="c")
+        self.treeviewRows.heading("name", text="Name")
+        self.treeviewRows.heading("name", anchor="center")
+        self.treeviewRows.column("name", width="150")
+        self.treeviewRows.column("name", minwidth="20")
+        self.treeviewRows.column("name", stretch="1")
+        self.treeviewRows.column("name", anchor="c")
+        self.treeviewRows.heading("category", text="Category")
+        self.treeviewRows.heading("category", anchor="center")
+        self.treeviewRows.column("category", width="150")
+        self.treeviewRows.column("category", minwidth="20")
+        self.treeviewRows.column("category", stretch="1")
+        self.treeviewRows.column("category", anchor="c")
+        self.treeviewRows.heading("type", text="Type")
+        self.treeviewRows.heading("type", anchor="center")
+        self.treeviewRows.column("type", width="150")
+        self.treeviewRows.column("type", minwidth="20")
+        self.treeviewRows.column("type", stretch="1")
+        self.treeviewRows.column("type", anchor="c")
         
-        self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
-        top.configure(menu = self.menubar)
+        self.menubar = tk.Menu(top, font="TkMenuFont", bg=_bgcolor, fg=_fgcolor)
+        top.configure(menu=self.menubar)
 
-        self.sub_menu = tk.Menu(top,tearoff=0)
-        self.menubar.add_cascade(menu=self.sub_menu,
+        self.sub_menu = tk.Menu(top, tearoff=0)
+        self.menubar.add_cascade(
+                menu=self.sub_menu,
                 activebackground="#ececec",
                 activeforeground="#000000",
                 background="#d9d9d9",
@@ -229,6 +208,7 @@ class MainWindow():
                 foreground="#000000",
                 label="Quit")
 
+
 # The following code is added to facilitate the Scrolled widgets you specified.
 class AutoScroll(object):
     '''Configure the scrollbars for a widget.'''
@@ -262,12 +242,7 @@ class AutoScroll(object):
         master.grid_rowconfigure(0, weight=1)
 
         # Copy geometry methods of master  (taken from ScrolledText.py)
-        if py3:
-            methods = tk.Pack.__dict__.keys() | tk.Grid.__dict__.keys() \
-                  | tk.Place.__dict__.keys()
-        else:
-            methods = tk.Pack.__dict__.keys() + tk.Grid.__dict__.keys() \
-                  + tk.Place.__dict__.keys()
+        methods = tk.Pack.__dict__.keys() | tk.Grid.__dict__.keys() | tk.Place.__dict__.keys()
 
         for meth in methods:
             if meth[0] != '_' and meth not in ('config', 'configure'):
@@ -288,6 +263,7 @@ class AutoScroll(object):
     def __str__(self):
         return str(self.master)
 
+
 def _create_container(func):
     '''Creates a ttk Frame with a given master, and use this new frame to
     place the scrollbars and the widget.'''
@@ -298,6 +274,7 @@ def _create_container(func):
         return func(cls, container, **kw)
     return wrapped
 
+
 class ScrolledTreeView(AutoScroll, ttk.Treeview):
     '''A standard ttk Treeview widget with scrollbars that will
     automatically show/hide as needed.'''
@@ -306,7 +283,7 @@ class ScrolledTreeView(AutoScroll, ttk.Treeview):
         ttk.Treeview.__init__(self, master, **kw)
         AutoScroll.__init__(self, master)
 
-import platform
+
 def _bound_to_mousewheel(event, widget):
     child = widget.winfo_children()[0]
     if platform.system() == 'Windows' or platform.system() == 'Darwin':
@@ -318,6 +295,7 @@ def _bound_to_mousewheel(event, widget):
         child.bind_all('<Shift-Button-4>', lambda e: _on_shiftmouse(e, child))
         child.bind_all('<Shift-Button-5>', lambda e: _on_shiftmouse(e, child))
 
+
 def _unbound_to_mousewheel(event, widget):
     if platform.system() == 'Windows' or platform.system() == 'Darwin':
         widget.unbind_all('<MouseWheel>')
@@ -327,6 +305,7 @@ def _unbound_to_mousewheel(event, widget):
         widget.unbind_all('<Button-5>')
         widget.unbind_all('<Shift-Button-4>')
         widget.unbind_all('<Shift-Button-5>')
+
 
 def _on_mousewheel(event, widget):
     if platform.system() == 'Windows':
@@ -339,6 +318,7 @@ def _on_mousewheel(event, widget):
         elif event.num == 5:
             widget.yview_scroll(1, 'units')
 
+
 def _on_shiftmouse(event, widget):
     if platform.system() == 'Windows':
         widget.xview_scroll(-1*int(event.delta/120), 'units')
@@ -349,7 +329,4 @@ def _on_shiftmouse(event, widget):
             widget.xview_scroll(-1, 'units')
         elif event.num == 5:
             widget.xview_scroll(1, 'units')
-
-if __name__ == '__main__':
-    vp_start_gui()
 

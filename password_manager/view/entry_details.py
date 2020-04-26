@@ -6,47 +6,28 @@
 #    Feb 16, 2020 11:30:55 AM CET  platform: Linux
 
 import sys
-from tkinter import StringVar, OptionMenu, IntVar
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
-
-try:
-    import ttk
-    py3 = False
-except ImportError:
-    import tkinter.ttk as ttk
-    py3 = True
-
-from support import entry_details_support
-from view import window_util
+import tkinter as tk
+import support.entry_details_support as entry_details_support
+import view.window_util as window_util
+from tkinter import ttk
 
 
-def vp_start_gui():
-    '''Starting point when module is the main routine.'''
-    global val, w, root
-    root = tk.Tk()
-    top = EntryDetailsWindow (root)
-    entry_details_support.init(root, top)
-    root.mainloop()
-    w = None
-
-def create_EntryDetailsWindow(root, *args, **kwargs):
+def create_entry_details_window(root, *args, **kwargs):
     '''Starting point when module is imported by another module.
        Correct form of call: 'create_EntryDetailsWidnow(root, *args, **kwargs)' .'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
-    top = EntryDetailsWindow (w)
+    w = tk.Toplevel(root)
+    top = EntryDetailsWindow(w)
     entry_details_support.init(w, top, *args, **kwargs)
-    return (w, top)
+    return w, top
 
-def destroy_EntryDetailsWidnow():
+
+def destroy_entry_details_window():
     global w
     w.destroy()
     w = None
+
 
 class EntryDetailsWindow:
     def __init__(self, top=None):
@@ -60,11 +41,10 @@ class EntryDetailsWindow:
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
+        self.style.configure('.', background=_bgcolor)
+        self.style.configure('.', foreground=_fgcolor)
+        self.style.configure('.', font="TkDefaultFont")
+        self.style.map('.', background=[('selected', _compcolor), ('active', _ana2color)])
         
         width = 470
         height = 551
@@ -98,9 +78,9 @@ class EntryDetailsWindow:
         self.lblType.configure(highlightcolor=_fgcolor)
         self.lblType.configure(foreground=_fgcolor)
 
-        self.selType = StringVar()
-        self.typeSelMenu = OptionMenu(self.frameBody, self.selType, None)
-        self.typeSelMenu.place(relx=0.219, rely=0.127,height=21, relwidth=0.6)
+        self.selType = tk.StringVar()
+        self.typeSelMenu = tk.OptionMenu(self.frameBody, self.selType, None)
+        self.typeSelMenu.place(relx=0.219, rely=0.127, height=21, relwidth=0.6)
         self.typeSelMenu.configure(background="#d9d9d9")
         self.typeSelMenu.configure(highlightbackground="#d3d3d3")
         self.typeSelMenu.configure(foreground=_fgcolor)
@@ -118,9 +98,9 @@ class EntryDetailsWindow:
         self.lblCateg.configure(highlightcolor="black")
         self.lblCateg.configure(foreground=_fgcolor)
 
-        self.selCat = StringVar()
-        self.catSelMenu = OptionMenu(self.frameBody, self.selCat, None)
-        self.catSelMenu.place(relx=0.219, rely=0.2,height=21, relwidth=0.6)
+        self.selCat = tk.StringVar()
+        self.catSelMenu = tk.OptionMenu(self.frameBody, self.selCat, None)
+        self.catSelMenu.place(relx=0.219, rely=0.2, height=21, relwidth=0.6)
         self.catSelMenu.configure(background="#d9d9d9")
         self.catSelMenu.configure(highlightbackground="#d3d3d3")
         self.catSelMenu.configure(foreground=_fgcolor)
@@ -179,7 +159,7 @@ class EntryDetailsWindow:
         self.lblDesc.configure(foreground=_fgcolor)
 
         self.entryName = tk.Entry(self.frameBody)
-        self.entryName.place(relx=0.219, rely=0.272,height=21, relwidth=0.6)
+        self.entryName.place(relx=0.219, rely=0.272, height=21, relwidth=0.6)
         self.entryName.configure(background="white")
         self.entryName.configure(font="TkFixedFont")
         self.entryName.configure(selectbackground="#c4c4c4")
@@ -188,7 +168,7 @@ class EntryDetailsWindow:
         self.entryName.configure(selectforeground=_fgcolor)
 
         self.entryValue = tk.Entry(self.frameBody)
-        self.entryValue.place(relx=0.219, rely=0.345,height=21, relwidth=0.446)
+        self.entryValue.place(relx=0.219, rely=0.345, height=21, relwidth=0.446)
         self.entryValue.configure(background="white")
         self.entryValue.configure(font="TkFixedFont")
         self.entryValue.configure(selectbackground="#c4c4c4")
@@ -207,7 +187,7 @@ class EntryDetailsWindow:
         self.entryUsername.configure(selectforeground=_fgcolor)
 
         self.entryEmail = tk.Entry(self.frameBody)
-        self.entryEmail.place(relx=0.219, rely=0.544,height=21, relwidth=0.6)
+        self.entryEmail.place(relx=0.219, rely=0.544, height=21, relwidth=0.6)
         self.entryEmail.configure(background="white")
         self.entryEmail.configure(font="TkFixedFont")
         self.entryEmail.configure(selectbackground="#c4c4c4")
@@ -246,7 +226,7 @@ class EntryDetailsWindow:
         self.btnClose.configure(highlightcolor="black")
         self.btnClose.configure(foreground=_fgcolor)
         
-        self.chDfEmVal=IntVar()
+        self.chDfEmVal = tk.IntVar()
         self.checkDefEmail = tk.Checkbutton(self.frameBody)
         self.checkDefEmail.place(relx=0.219, rely=0.49, relheight=0.038, relwidth=0.442)
         self.checkDefEmail.configure(activebackground="#d9d9d9")
@@ -271,14 +251,14 @@ class EntryDetailsWindow:
         self.lblId.configure(foreground=_fgcolor)
 
         self.entryId = tk.Entry(self.frameBody)
-        self.entryId.place(relx=0.219, rely=0.054,height=21, relwidth=0.184)
+        self.entryId.place(relx=0.219, rely=0.054, height=21, relwidth=0.184)
         self.entryId.configure(background="white")
         self.entryId.configure(font="TkFixedFont")
         self.entryId.configure(selectbackground="#c4c4c4")
         self.entryId.configure(foreground=_fgcolor)
 
         self.entryModDate = tk.Entry(self.frameBody)
-        self.entryModDate.place(relx=0.219, rely=0.799,height=21, relwidth=0.6)
+        self.entryModDate.place(relx=0.219, rely=0.799, height=21, relwidth=0.6)
         self.entryModDate.configure(background="white")
         self.entryModDate.configure(font="TkFixedFont")
         self.entryModDate.configure(selectbackground="#c4c4c4")
@@ -351,7 +331,7 @@ class EntryDetailsWindow:
         self.btnCopyEmail.configure(highlightcolor="black")
         self.btnCopyEmail.configure(foreground=_fgcolor)
         
-        self.setChBtnShow=IntVar()
+        self.setChBtnShow = tk.IntVar()
         self.chBtnShow = tk.Checkbutton(self.frameBody)
         self.chBtnShow.place(relx=0.678, rely=0.345, relwidth=0.133, relheight=0.0, height=18)
         self.chBtnShow.configure(variable=self.setChBtnShow)
@@ -365,8 +345,8 @@ class EntryDetailsWindow:
         self.chBtnShow.configure(highlightcolor="black")
         self.chBtnShow.configure(foreground=_fgcolor)
 
-        self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
-        top.configure(menu = self.menubar)
+        self.menubar = tk.Menu(top, font="TkMenuFont", bg=_bgcolor, fg=_fgcolor)
+        top.configure(menu=self.menubar)
         
         self.lblMsg = tk.Label(self.frameBody)    
         self.lblMsg.place(relx=0.022, rely=0.935, height=18, width=436)
