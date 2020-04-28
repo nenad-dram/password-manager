@@ -46,7 +46,7 @@ class ChangeMasterPwdWindow:
         top.geometry("432x211+646+315")
         top.minsize(120, 1)
         top.maxsize(3844, 1061)
-        top.resizable(1, 1)
+        top.resizable(0, 0)
         top.title("Change Master Password")
         top.configure(background="#d9d9d9")
 

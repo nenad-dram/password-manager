@@ -45,7 +45,7 @@ class NewEntryWindow:
         
         top.minsize(176, 1)
         top.maxsize(5764, 1590)
-        top.resizable(1, 1)
+        top.resizable(0, 10)
         top.title("New Entry")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")

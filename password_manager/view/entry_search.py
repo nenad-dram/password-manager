@@ -57,6 +57,7 @@ class SearchEntryWidnow:
 
         top.minsize(176, 1)
         top.maxsize(5764, 1590)
+        top.resizable(0, 0)
         top.title("Search Entry")
         top.configure(highlightcolor="black")
 

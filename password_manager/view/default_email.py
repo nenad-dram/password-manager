@@ -45,7 +45,7 @@ class DefaultEmail:
         
         top.minsize(120, 1)
         top.maxsize(3844, 1061)
-        top.resizable(1, 1)
+        top.resizable(0, 0)
         top.title("Default E-mail")
         top.configure(background="#d9d9d9")
 

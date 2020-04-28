@@ -55,6 +55,7 @@ class EntryDetailsWindow:
         
         top.minsize(176, 1)
         top.maxsize(5764, 1590)
+        top.resizable(0, 0)
         top.title("Entry Details")
         top.configure(highlightcolor="black")
 
