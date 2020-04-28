@@ -201,6 +201,13 @@ class MainWindow():
         self.sub_menu.add_separator(
                 background="#d9d9d9")
         self.sub_menu.add_command(
+            activebackground="#ececec",
+            activeforeground="#000000",
+            background="#d9d9d9",
+            font="TkMenuFont",
+            foreground="#000000",
+            label="About")
+        self.sub_menu.add_command(
                 activebackground="#ececec",
                 activeforeground="#000000",
                 background="#d9d9d9",

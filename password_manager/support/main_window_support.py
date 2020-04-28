@@ -13,9 +13,10 @@ import model.services as services
 import model.security as security
 import view.entry_details as entry_details
 import view.entry_search as entry_search
-import tkinter as tk
 from tkinter import messagebox
 
+_APP_VERSION = "1.0.0"
+_APP_NAME = "Password Manager"
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -23,14 +24,16 @@ def init(top, gui, *args, **kwargs):
     top_level = top
     root = top
     gui.sub_menu.entryconfig(0, command=lambda: category_management.create_categ_man_window(top))
-    gui.sub_menu.entryconfig(5, command=destroy_window)
-    gui.btnNewEnt.configure(command=on_create_new)
-    gui.btnSearch.configure(command=on_search_btn)
-    gui.treeviewRows.bind('<<TreeviewSelect>>', on_row_select)
     gui.sub_menu.entryconfig(1, command=lambda: default_email.create_default_email_window(top))
     gui.sub_menu.entryconfig(2, command=lambda: change_master_password.create_change_master_pwd_window(top))
     gui.sub_menu.entryconfig(3, command=on_reset_req)
-    
+    gui.sub_menu.entryconfig(5, command=about_window)
+    gui.sub_menu.entryconfig(6, command=destroy_window)
+
+    gui.btnNewEnt.configure(command=on_create_new)
+    gui.btnSearch.configure(command=on_search_btn)
+    gui.treeviewRows.bind('<<TreeviewSelect>>', on_row_select)
+
     insert_rows(services.entry_list())
 
 
@@ -86,3 +89,8 @@ def on_search_btn():
     root.wait_window(child[0])
     if child[0].update_parent:
         update_rows(child[0].search_result)
+
+
+def about_window():
+    about_msg = _APP_NAME + " " + _APP_VERSION
+    messagebox.showinfo("About Application", about_msg)
