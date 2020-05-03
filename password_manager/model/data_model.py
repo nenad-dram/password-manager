@@ -1,8 +1,12 @@
-'''
-Created on Jan 20, 2020
+"""
+Module which contains all model classes.
 
-@author: nenad
-'''
+Category and Entry classes inherits Base class which contains common attributes.
+Enum is defined to represent Entry type.
+
+Created on Jan 20, 2020
+@author: nenad.dramicanin
+"""
 from enum import Enum
 
 
