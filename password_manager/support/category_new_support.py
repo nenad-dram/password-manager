@@ -38,5 +38,11 @@ def on_create_btn():
     if name.isspace() or len(name) == 0:
         w.lblMsg.configure(text='Name can\'t be empty!')
         return
+
+    # Check if category already exists
+    if services.category_get_by_name(name) is not None:
+        w.lblMsg.configure(text='Category ' + name + ' already exists!')
+        return
+
     services.category_add(name, description)
     destroy_window()

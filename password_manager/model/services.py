@@ -146,11 +146,19 @@ def entry_delete(entry_id: int):
     encrypt_and_save(__ENTRY_FILE, jsonpickle.encode(entries))
 
 
-def entry_get_by_id(entry_id: int):
+def entry_get_by_id(entry_id: int) -> data_model.Entry:
     """Returns entry instance with given ID"""
 
     for entry in entry_list():
         if entry.entity_id == entry_id:
+            return entry
+
+
+def entry_get_by_name(name: str) -> data_model.Entry:
+    """Returns entry instance with given name"""
+
+    for entry in entry_list():
+        if entry.name == name:
             return entry
 
 

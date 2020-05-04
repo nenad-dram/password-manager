@@ -1,7 +1,8 @@
-"""Entry point of the application
+"""
+Entry point of the application
 
 Created on Jan 20, 2020
-@author: nenad
+@author: nenad.dramicanin
 """
 import tkinter as tk
 

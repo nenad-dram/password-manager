@@ -108,6 +108,11 @@ def on_btn_create():
                                    and (username.isspace() or len(username) == 0))):
         w.lblMsg.config(text='Account must have username or e-mail value!')
         return
+
+    # Check if entry already exists
+    if services.entry_get_by_name(name) is not None:
+        w.lblMsg.configure(text='Entry ' + name + ' already exists!')
+        return
       
     services.entry_add(name, value, sel_type, sel_catg, description, username, email)
     
