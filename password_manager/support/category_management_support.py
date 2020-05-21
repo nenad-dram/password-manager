@@ -7,6 +7,7 @@ in conjunction with Tcl version 8.6
 Created on Feb 03, 2020
 @author: nenad.dramicanin
 """
+from tkinter import messagebox
 
 import view.category_new as category_new
 import view.category_details as category_details
@@ -85,5 +86,11 @@ def on_btn_cat_edit(row_id: int):
 def on_btn_cat_delete(row_id: int):
     """Initiates category delete action"""
 
+    if services.is_category_used(row_id):
+        root.grab_set()
+        messagebox.showerror("Delete category", "Category is in use!")
+        return
+
     services.category_delete(row_id)
+    messagebox.showinfo("Delete category", "Category deleted!")
     update_rows()

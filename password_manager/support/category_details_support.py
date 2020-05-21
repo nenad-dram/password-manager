@@ -7,6 +7,7 @@ in conjunction with Tcl version 8.6
 Created on Feb 05, 2020
 @author: nenad.dramicanin
 """
+from tkinter import messagebox
 
 import model.services as services
 import tkinter as tk
@@ -61,4 +62,6 @@ def on_save_btn(category):
     category.name = name
     category.description = description
     services.category_edit(category)
+    root.grab_set()
+    messagebox.showinfo("Edit category", "Category edited!")
     destroy_window()

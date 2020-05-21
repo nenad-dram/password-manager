@@ -162,6 +162,18 @@ def entry_get_by_name(name: str) -> data_model.Entry:
             return entry
 
 
+def is_category_used(cat_id: int) -> bool:
+    """Checks whether an entry with given category exists, i.e. is category used"""
+
+    result = False
+
+    for entry in entry_list():
+        if entry.category_id == cat_id:
+            result = True
+            break
+
+    return result
+
 def entry_delete_all():
     """Deletes all entries both form cache and a file"""
 

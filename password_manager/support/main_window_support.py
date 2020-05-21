@@ -22,7 +22,7 @@ from tkinter import messagebox
 # App data
 from model import data_model
 
-_APP_VERSION = "1.0.0"
+_APP_VERSION = "1.1.0"
 _APP_NAME = "Password Manager"
 
 

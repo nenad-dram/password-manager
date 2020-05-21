@@ -7,6 +7,7 @@ in conjunction with Tcl version 8.6
 Created on Feb 04, 2020
 @author: nenad.dramicanin
 """
+from tkinter import messagebox
 
 import model.services as services
 import tkinter as tk
@@ -45,4 +46,6 @@ def on_create_btn():
         return
 
     services.category_add(name, description)
+    root.grab_set()
+    messagebox.showinfo("Add category", "Category added!")
     destroy_window()
