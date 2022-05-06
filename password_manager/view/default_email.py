@@ -52,8 +52,6 @@ class DefaultEmail:
         top.title("Default E-mail")
         top.configure(background="#d9d9d9")
 
-        top.iconbitmap(window_util.get_icon_path())
-
         self.entryEmail = tk.Entry(top)
         self.entryEmail.place(relx=0.253, rely=0.179, height=21, relwidth=0.694)
         self.entryEmail.configure(background="white")

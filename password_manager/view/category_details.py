@@ -55,8 +55,6 @@ class CategoryDetailsWindow:
         top.configure(highlightcolor="black")
         top.grab_set()
 
-        top.iconbitmap(window_util.get_icon_path())
-
         self.frameBody = tk.Frame(top)
         self.frameBody.place(relx=0.0, rely=0.0, relheight=1.007, relwidth=1.003)
 

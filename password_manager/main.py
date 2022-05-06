@@ -12,7 +12,7 @@ import view.registration as registration
 import view.window_util as window_util
 import sys
 
-root = tk.Tk()
+root = tk.Tk(className='Password Manager')
 
 # Configure application wide exception handler
 sys.excepthook = window_util.handle_app_exception
@@ -23,5 +23,5 @@ if security.master_pwd_exists():
 else:
     registration.create_registration_window(root)
 
-root.iconbitmap(window_util.get_icon_path())
+root.wm_iconphoto(root._w, tk.PhotoImage(file=window_util.get_icon_path()))
 root.mainloop()

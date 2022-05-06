@@ -64,8 +64,6 @@ class SearchEntryWidnow:
         top.title("Search Entry")
         top.configure(highlightcolor="black")
 
-        top.iconbitmap(window_util.get_icon_path())
-
         self.frameBody = tk.Frame(top)
         self.frameBody.place(relx=0.0, rely=0.0, relheight=1.0, relwidth=1.0)
         self.frameBody.configure(relief='groove')

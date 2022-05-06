@@ -65,8 +65,6 @@ class CategManWindow:
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
 
-        top.iconbitmap(window_util.get_icon_path())
-
         self.header = tk.Frame(top)
         self.header.place(relx=0.0, rely=0.0, relheight=0.106, relwidth=1.0)
         self.header.configure(relief='groove')

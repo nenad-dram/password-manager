@@ -16,7 +16,7 @@ from tkinter import messagebox
 
 ICON_DIR = 'resources'
 ICON_NAME = 'padlock'
-ICON_LINUX_EXT = 'xbm'
+ICON_LINUX_EXT = 'png'
 ICON_WIN_EXT = 'ico'
 
 
@@ -29,7 +29,7 @@ def get_icon_path():
     """Creates absolute path to the app/form icon"""
 
     try:
-        return '@' + os.path.join(util.get_root_path(), ICON_DIR, ICON_NAME + "." + get_icon_ext())
+        return os.path.join(util.get_root_path(), ICON_DIR, ICON_NAME + "." + get_icon_ext())
 
     except Exception as e:
         print(e)

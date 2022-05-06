@@ -53,8 +53,6 @@ class ChangeMasterPwdWindow:
         top.title("Change Master Password")
         top.configure(background="#d9d9d9")
 
-        top.iconbitmap(window_util.get_icon_path())
-
         self.lblCurPwd = tk.Label(top)
         self.lblCurPwd.place(relx=0.023, rely=0.095, height=21, relwidth=0.35)
         self.lblCurPwd.configure(anchor='w')
