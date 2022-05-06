@@ -38,10 +38,10 @@ def get_icon_path():
 
 def get_center_points(root: tkinter.Tk, width: int, height: int) -> Tuple[int, int]:
     """Calculates center points for the provided form based on it's width and height.
-        The points are used as a starting points of the form, i.e. the form will be centralized
+        The points are used as a starting points of the form, i.e. the form will be centered
     """
 
-    center_x = int((root.winfo_screenwidth()/2) - (width/2))
+    center_x = int((root.winfo_screenwidth()/4) - (width/2))
     center_y = int((root.winfo_screenheight()/2) - (height/2))
     return center_x, center_y
 
