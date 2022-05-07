@@ -17,14 +17,11 @@ import model.services as services
 import model.security as security
 import view.entry_details as entry_details
 import view.entry_search as entry_search
+import view.window_util as window_util
 from tkinter import messagebox
 
 # App data
 from model import data_model
-
-_APP_VERSION = "1.1.0"
-_APP_NAME = "Password Manager"
-
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -117,5 +114,5 @@ def on_search_btn():
 def about_window():
     """Shows info with app details"""
 
-    about_msg = _APP_NAME + " " + _APP_VERSION
+    about_msg = window_util.get_app_name() +" " + window_util.get_app_version()
     messagebox.showinfo("About Application", about_msg)

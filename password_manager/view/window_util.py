@@ -19,6 +19,9 @@ ICON_NAME = 'padlock'
 ICON_LINUX_EXT = 'png'
 ICON_WIN_EXT = 'ico'
 
+_APP_VERSION = "1.2.0"
+_APP_NAME = "Password Manager"
+
 
 def get_icon_ext():
     """Returns icon's extension based on a platform (OS)"""
@@ -52,3 +55,11 @@ def handle_app_exception(exc_type: str, exc_value: str, exc_traceback: str):
     logging.basicConfig(filename='error.log', level=logging.DEBUG, format="%(asctime)s:%(message)s")
     logging.error("ERROR:", exc_info=(exc_type, exc_value, exc_traceback))
     messagebox.showerror('Error', 'An error occurred during action execution!')
+
+def get_app_name():
+    """Returns App's name"""
+    return _APP_NAME
+
+def get_app_version():
+    """Returns App's version"""
+    return _APP_VERSION
